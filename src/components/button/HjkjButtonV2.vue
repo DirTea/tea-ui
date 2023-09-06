@@ -6,28 +6,28 @@
   </button>
 </template>
 
-<script lang="ts" setup>
-import { computed } from "vue";
-
-const props = defineProps({
-  type:{
-    type: String,
-    default: "default",
+<script>
+export default {
+  props: {
+    type:{
+      type: String,
+      default: "default",
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    }
   },
-  disabled: {
-    type: Boolean,
-    default: false,
+  computed: {
+    Class() {
+      return [
+        'button',
+        `button-${props.type}`,
+        props.disabled ? 'button-disabled' : ''
+      ]
+    }
   }
-})
-
-const Class = computed(()=>{
-  return [
-    'button',
-    `button-${props.type}`,
-    props.disabled ? 'button-disabled' : ''
-  ]
-})
-
+}
 </script>
 
 <style scoped>
@@ -69,4 +69,3 @@ const Class = computed(()=>{
   text-transform: uppercase !important;
 }
 </style>
-

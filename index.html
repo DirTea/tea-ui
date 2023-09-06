@@ -10,4 +10,12 @@
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>
+  <style>
+    //高德地图弹出框层级
+    :deep(.amap-sug-result) {
+      z-index: 9999 !important;
+      left: 17px !important;
+      top: 60px !important;
+    }
+  </style>
 </html>

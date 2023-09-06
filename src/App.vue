@@ -19,6 +19,9 @@
   <div style="margin-top: 10px">
     <tag-cloud :list="list" direction="right"></tag-cloud>
   </div>
+  <div style="margin-top: 10px">
+    <hjkj-map></hjkj-map>
+  </div>
 </template>
 
 <script setup>
@@ -28,6 +31,7 @@ import DraggableTable from "./components/dragable-table/HjkjDraggableTable.vue";
 import CountTo from "./components/count-to/HjkjCountTo.vue";
 import HjkjButton from "./components/button/HjkjButton.vue";
 import {ref} from "vue";
+import HjkjMap from "./components/map/gaode/HjkjMap.vue";
 
 let dialogVisible = ref(false)
 const list = [

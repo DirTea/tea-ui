@@ -6,6 +6,8 @@
 <script setup lang="ts">
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
+import axios from "axios";
+import toGeoJSON from "@mapbox/togeojson/togeojson.js"
 
 let AMap: any
 let map: any
@@ -13,7 +15,7 @@ const initMap = () => {
   AMapLoader.load({
     "key": "673b9d195b95c28017d6799f850fa6ba", // 申请好的Web端开发者Key，首次调用 load 时必填
     "version": "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    "plugins": ['AMap.Geolocation', 'AMap.MapType', 'AMap.PlaceSearch', 'AMap.AutoComplete'], // 需要使用的的插件列表
+    "plugins": ['AMap.Geolocation', 'AMap.MapType', 'AMap.PlaceSearch', 'AMap.AutoComplete', 'AMap.GeoJSON'], // 需要使用的的插件列表
   }).then(Amap => {
     AMap = Amap
     // 添加默认图层
@@ -22,7 +24,7 @@ const initMap = () => {
         new AMap.TileLayer.Satellite(), // 卫星图
         new AMap.TileLayer.RoadNet() // 路网
       ],
-      zoom: 6,
+      zoom: 5,
     });
     // 添加切换图层控件
     map.addControl(new AMap.MapType());
@@ -115,6 +117,25 @@ const searchIn = () => {
   }
 }
 
+// 添加geojson图层
+// 其他格式的矢量文件必须先转化为geojson
+const setGeoJson = () => {
+  if(AMap && map) {
+    axios.get("/chongqing.json").then((res: any) => {
+      let geojson = new AMap.GeoJSON({
+        geoJSON: res.data,
+        getPolygon: (geojson, lnglats) => {
+          return new AMap.Polygon({
+            path: lnglats,
+            strokeColor: 'white', // 边框颜色
+            fillColor: 'red' // 填充颜色
+          });
+        },
+      });
+      map.add(geojson)
+    });
+  }
+}
 </script>
 
 <style scoped>

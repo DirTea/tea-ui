@@ -7,10 +7,11 @@
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
-import toGeoJSON from "@mapbox/togeojson/togeojson.js"
 
 let AMap: any
 let map: any
+
+// 初始化地图
 const initMap = () => {
   AMapLoader.load({
     "key": "673b9d195b95c28017d6799f850fa6ba", // 申请好的Web端开发者Key，首次调用 load 时必填
@@ -28,6 +29,7 @@ const initMap = () => {
     });
     // 添加切换图层控件
     map.addControl(new AMap.MapType());
+    setGeoJson()
   });
 }
 initMap();
@@ -125,11 +127,15 @@ const setGeoJson = () => {
       let geojson = new AMap.GeoJSON({
         geoJSON: res.data,
         getPolygon: (geojson, lnglats) => {
-          return new AMap.Polygon({
+          let polygon =  new AMap.Polygon({
             path: lnglats,
             strokeColor: 'white', // 边框颜色
-            fillColor: 'red' // 填充颜色
+            fillColor: 'red', // 填充颜色
           });
+          polygon.on('click', (e)=> {
+            console.log(e)
+          });
+          return polygon
         },
       });
       map.add(geojson)

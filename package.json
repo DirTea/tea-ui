@@ -13,6 +13,7 @@
     "@amap/amap-jsapi-types": "^0.0.13",
     "axios": "^1.5.1",
     "element-plus": "^2.3.4",
+    "lodash": "^4.17.21",
     "sortablejs": "^1.15.0",
     "vue": "^3.3.4"
   },

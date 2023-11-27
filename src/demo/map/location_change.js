@@ -8,7 +8,7 @@ const ee = 0.00669342162296594323;
  * @param lat
  * @returns {*[]}
  */
-export function gcj02towgs84(lng: number, lat: number) {
+export function gcj02towgs84(lng, lat) {
     if (outOfChina(lng, lat)) {
         return [lng, lat]
     } else {
@@ -32,7 +32,7 @@ export function gcj02towgs84(lng: number, lat: number) {
  * @param lat
  * @returns {*[]}
  */
-export function wgs84togcj02(lng: number, lat: number) {
+export function wgs84togcj02(lng, lat) {
     if (outOfChina(lng, lat)) {
         return {lat: lat, lng: lng}
     } else {
@@ -50,7 +50,7 @@ export function wgs84togcj02(lng: number, lat: number) {
     }
 }
 
-function transformLat(lng: number, lat: number) {
+function transformLat(lng, lat) {
     let ret = -100.0 + 2.0 * lng + 3.0 * lat + 0.2 * lat * lat + 0.1 * lng * lat + 0.2 * Math.sqrt(Math.abs(lng));
     ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
     ret += (20.0 * Math.sin(lat * PI) + 40.0 * Math.sin(lat / 3.0 * PI)) * 2.0 / 3.0;
@@ -58,7 +58,7 @@ function transformLat(lng: number, lat: number) {
     return ret
 }
 
-function transformLng(lng: number, lat: number) {
+function transformLng(lng, lat) {
     let ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
     ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
     ret += (20.0 * Math.sin(lng * PI) + 40.0 * Math.sin(lng / 3.0 * PI)) * 2.0 / 3.0;
@@ -66,11 +66,11 @@ function transformLng(lng: number, lat: number) {
     return ret
 }
 
-function outOfChina(lng: number, lat: number) {
+function outOfChina(lng, lat) {
     return !(lng > 73.66 && lng < 135.05 && lat > 3.86 && lat < 53.55);
 }
 
 
-export function toLocation(lng: number, lat: number) {
+export function toLocation(lng, lat) {
     window.open(`https://uri.amap.com/marker?position=${lng},${lat}`)
 }

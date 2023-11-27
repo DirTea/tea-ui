@@ -4,7 +4,8 @@
   </div>
   <div style="margin-top: 10px">
     <dialog @dialogVisible="dialogVisible">
-      <div style="height: 200px;width: 400px;color: white;background-color: #25599f;display: flex;align-items: center;justify-content: center">
+      <div
+          style="height: 200px;width: 400px;color: white;background-color: #25599f;display: flex;align-items: center;justify-content: center">
         这是弹出框，请自定义
       </div>
     </dialog>
@@ -21,27 +22,29 @@
   </div>
   <div style="margin-top: 10px">
     <div>高德地图</div>
-<!--    <GaodeHjkjMap></GaodeHjkjMap>-->
+    <!--    <GaodeHjkjMap></GaodeHjkjMap>-->
   </div>
   <div style="margin-top: 10px">
     <div>天地图</div>
-    <TiandiHjkjMap></TiandiHjkjMap>
+    <!--    <TiandiHjkjMap></TiandiHjkjMap>-->
+  </div>
+  <div>
+    <doughnut-chart></doughnut-chart>
   </div>
 </template>
 
 <script setup>
 import TagCloud from "./components/tag-cloud/HjkjTagCloud.vue";
 import Rank from "./components/rank/HjkjRank.vue";
-import DraggableTable from "./components/dragable-table/HjkjDraggableTable.vue";
+import DraggableTable from "./demo/dragable-table/HjkjDraggableTable.vue";
 import CountTo from "./components/count-to/HjkjCountTo.vue";
-import HjkjButton from "./components/button/HjkjButton.vue";
+import HjkjButton from "./components/button/vue3/HjkjButton.vue";
 import {ref} from "vue";
-import GaodeHjkjMap from "./components/map/gaode/HjkjMap.vue";
-import TiandiHjkjMap from "./components/map/tiandi/vue2/HjkjMap.vue"
+import DoughnutChart from "./demo/echarts/DoughnutChart.vue";
 
 let dialogVisible = ref(false)
 const list = [
-  {html: "<div class='hover'>浙江</div>" },
+  {html: "<div class='hover'>浙江</div>"},
   {html: "<div class='hover'>上海</div>"},
   {html: "<div class='hover'>江苏</div>"},
   {html: "<div class='hover'>福建</div>"},

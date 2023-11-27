@@ -1,0 +1,1 @@
+此目录（/components）下的文件是组件，请直接复制至自己项目的components目录下使用

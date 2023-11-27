@@ -88,6 +88,35 @@ export default {
       mapTD.addLayer(satelliteLayer);
       mapTD.addLayer(roadNetLayer);
       this.map = mapTD;
+      this.setMapClick();
+    },
+
+    /**
+     * 定位到用户当前位置
+     * 注意：定位会导致setGeoJson()渲染出现bug，建议二者不要一起使用
+     */
+    setLocation() {
+      let that = this;
+      if (this.map) {
+        let lo = new T.Geolocation();
+        let fn = function (e) {
+          that.map.centerAndZoom(e.lnglat, 15)
+          // that.setMarker(e.lnglat.getLng(), e.lnglat.getLat())
+        }
+        lo.getCurrentPosition(fn);
+      }
+    },
+
+    /**
+     * 添加地图点击事件
+     */
+    setMapClick() {
+      if (this.map) {
+        this.map.addEventListener("click", (e) => {
+          // alert(e.lnglat.getLng() + "," + e.lnglat.getLat());
+          // this.setMarker(e.lnglat.getLng(), e.lnglat.getLat())
+        });
+      }
     },
 
     /**
@@ -109,12 +138,12 @@ export default {
 
     /**
      * 设置标记点
-     * @param lng 经度
-     * @param lat 纬度
-     * @param icon 自定义标记
+     * @param lng 经度 （必填）
+     * @param lat 纬度 （必填）
+     * @param icon 自定义标记 （选填）
      * @returns marker 标记点实例
      */
-    setMarker(lng, lat, icon) {
+    setMarker(lng, lat, icon = null) {
       if (this.map) {
         let marker = icon ? new T.Marker(new T.LngLat(lng, lat), {icon: icon}) : new T.Marker(new T.LngLat(lng, lat));
         this.setMarkerClick(marker)
@@ -161,29 +190,32 @@ export default {
      */
     setGeoJson(geoJson) {
       let that = this;
-      d3.json(geoJson, function (data) {
-        let overlay = new T.D3Overlay(
-            (sel, transform) => {
-              let upd = sel.selectAll('path.geojson').data(data.features);
-              upd.enter()
-                  .append('path')
-                  .attr("class", "geojson")
-                  .attr('stroke', 'white')
-                  .attr('fill', 'red')
-                  .attr('fill-opacity', '0.5')
-            },
-            (sel, transform) => {
-              sel.selectAll('path.geojson').each(
-                  function (d, i) {
-                    d3.select(this).attr('d', transform.pathFromGeojson)
-                  }
-              )
-            }
-        );
-        that.map.addOverLay(overlay);
-        that.geoJsonLayer = overlay;
-        overlay.bringToBack();
-      })
+      if (that.map) {
+        that.geoJsonLayer = null;
+        d3.json(geoJson, function (data) {
+          let overlay = new T.D3Overlay(
+              (sel, transform) => {
+                let upd = sel.selectAll('path.geojson').data(data.features);
+                upd.enter()
+                    .append('path')
+                    .attr("class", "geojson")
+                    .attr('stroke', 'white')
+                    .attr('fill', 'red')
+                    .attr('fill-opacity', '0.5')
+              },
+              (sel, transform) => {
+                sel.selectAll('path.geojson').each(
+                    function (d, i) {
+                      d3.select(this).attr('d', transform.pathFromGeojson)
+                    }
+                )
+              }
+          );
+          that.map.addOverLay(overlay);
+          that.geoJsonLayer = overlay;
+          overlay.bringToBack();
+        })
+      }
     },
 
     /**
@@ -208,9 +240,12 @@ export default {
      */
     clearOverlay() {
       if (this.map) {
-        this.map.clearOverLays()
+        // todo 移除覆盖物请在此处清除或重置data的变量
+        this.map.clearOverLays();
       }
     },
+
+
   }
 }
 </script>

@@ -9,7 +9,7 @@
         这是弹出框，请自定义
       </div>
     </dialog>
-    <hjkj-button @click="dialogVisible = true">弹出框</hjkj-button>
+    <TeaButton @click="dialogVisible = true">弹出框</TeaButton>
   </div>
   <div style="margin-top: 10px">
     <draggable-table></draggable-table>
@@ -34,13 +34,13 @@
 </template>
 
 <script setup>
-import TagCloud from "./components/tag-cloud/HjkjTagCloud.vue";
-import Rank from "./components/rank/HjkjRank.vue";
-import DraggableTable from "./demo/dragable-table/HjkjDraggableTable.vue";
-import CountTo from "./components/count-to/HjkjCountTo.vue";
-import HjkjButton from "./components/button/vue3/HjkjButton.vue";
+import TagCloud from "./components/tag-cloud/TeaTagCloud.vue";
+import Rank from "./components/rank/TeaRank.vue";
+import DraggableTable from "./demo/dragable-table/TeaDraggableTable.vue";
+import CountTo from "./components/count-to/TeaCountTo.vue";
+import TeaButton from "./components/button/vue3/TeaButton.vue";
 import {ref} from "vue";
-import DoughnutChart from "./demo/echarts/DoughnutChart.vue";
+import DoughnutChart from "./demo/echarts/TeaDoughnutChart.vue";
 
 let dialogVisible = ref(false)
 const list = [

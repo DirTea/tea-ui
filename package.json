@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:serve": "vitepress serve docs"
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
@@ -16,6 +19,7 @@
     "element-plus": "^2.3.4",
     "lodash": "^4.17.21",
     "sortablejs": "^1.15.0",
+    "vitepress": "^1.0.0-rc.31",
     "vue": "^3.3.4"
   },
   "devDependencies": {

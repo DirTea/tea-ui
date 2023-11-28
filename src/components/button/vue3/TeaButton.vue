@@ -1,16 +1,16 @@
 <template>
-  <button class="button" :class="Class" :disabled="disabled">
+  <button :class="Class" :disabled="disabled" class="button">
     <span class="text-button">
       <slot></slot>
     </span>
   </button>
 </template>
 
-<script lang="ts" setup>
-import { computed } from "vue";
+<script setup>
+import {computed} from "vue";
 
 const props = defineProps({
-  type:{
+  type: {
     type: String,
     default: "default",
   },
@@ -20,7 +20,7 @@ const props = defineProps({
   }
 })
 
-const Class = computed(()=>{
+const Class = computed(() => {
   return [
     'button',
     `button-${props.type}`,
@@ -40,8 +40,9 @@ const Class = computed(()=>{
   border-radius: 4px;
   cursor: pointer;
 }
-.button :hover,:focus {
-  opacity:.8
+
+.button :hover, :focus {
+  opacity: .8
 }
 
 .button-default {
@@ -49,7 +50,8 @@ const Class = computed(()=>{
   border: 1px solid #dcdfe6;
   background-color: #25599f;
 }
-.button-default :hover,:focus {
+
+.button-default :hover, :focus {
   opacity: .8;
 }
 
@@ -57,7 +59,8 @@ const Class = computed(()=>{
   opacity: .4;
   cursor: no-drop;
 }
-.button-disabled:hover,:focus{
+
+.button-disabled:hover, :focus {
   opacity: .4;
 }
 

@@ -2,15 +2,15 @@
   <div class="draggable-table">
     <el-table
         :data="tableData"
-        border
-        row-key="id"
         :header-cell-style="headerState"
         :row-style="rowState"
+        border
+        row-key="id"
     >
       <el-table-column
           v-for="(col, index) in columns" :key="index"
-          :prop="col.prop"
           :label="col.label"
+          :prop="col.prop"
       >
       </el-table-column>
     </el-table>
@@ -20,8 +20,9 @@
 <script setup>
 import {onMounted} from "vue"
 import Sortable from 'sortablejs'
+import {ElTable, ElTableColumn} from 'element-plus'
 
-onMounted(()=> {
+onMounted(() => {
   // 表格行拖拽
   rowDrop()
 })
@@ -67,7 +68,7 @@ const rowDrop = () => {
         tableData.forEach((item) => {
           optIDs.push(item.ID);
         });
-        console.log('重排后的数组',tableData)
+        console.log('重排后的数组', tableData)
       }
     },
   });
@@ -134,7 +135,7 @@ const rowState = () => {
 </script>
 
 <style scoped>
-:deep(.el-table--enable-row-hover) .el-table__body tr:hover>td.el-table__cell {
+:deep(.el-table--enable-row-hover) .el-table__body tr:hover > td.el-table__cell {
   background-color: #4473a2;
 }
 

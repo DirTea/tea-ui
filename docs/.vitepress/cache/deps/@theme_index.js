@@ -1,5 +1,5 @@
 import {
-  computed,
+  computed2 as computed,
   getCurrentInstance,
   getCurrentScope,
   onMounted,
@@ -8,7 +8,8 @@ import {
   unref,
   watch,
   watchEffect
-} from "./chunk-CSMLHSNT.js";
+} from "./chunk-BJPQOZWW.js";
+import "./chunk-LQ2VYIYD.js";
 
 // node_modules/vitepress/dist/client/theme-default/index.js
 import "F:/公司项目/组件库/tea-ui/node_modules/vitepress/dist/client/theme-default/styles/fonts.css";

@@ -1,29 +1,44 @@
 {
   "hash": "81230392",
-  "browserHash": "790c4fb1",
+  "browserHash": "690c7f6d",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "957ce03d",
+      "fileHash": "b6e85ad3",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "9695f4e8",
+      "fileHash": "805eccec",
       "needsInterop": false
     },
     "@theme/index": {
       "src": "../../../../node_modules/vitepress/dist/client/theme-default/index.js",
       "file": "@theme_index.js",
-      "fileHash": "c60f1747",
+      "fileHash": "3356e65a",
+      "needsInterop": false
+    },
+    "sortablejs": {
+      "src": "../../../../node_modules/sortablejs/modular/sortable.esm.js",
+      "file": "sortablejs.js",
+      "fileHash": "e8e5ce24",
+      "needsInterop": false
+    },
+    "element-plus": {
+      "src": "../../../../node_modules/element-plus/es/index.mjs",
+      "file": "element-plus.js",
+      "fileHash": "1fee740c",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-CSMLHSNT": {
-      "file": "chunk-CSMLHSNT.js"
+    "chunk-BJPQOZWW": {
+      "file": "chunk-BJPQOZWW.js"
+    },
+    "chunk-LQ2VYIYD": {
+      "file": "chunk-LQ2VYIYD.js"
     }
   }
 }

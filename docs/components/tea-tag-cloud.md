@@ -1,5 +1,5 @@
 <script setup>
-import TeaTagCloud from '../src/components/tag-cloud/TeaTagCloud.vue'; 
+import TeaTagCloud from '../../src/components/tag-cloud/TeaTagCloud.vue'; 
 
 const list = [
   {html: "<div class='hover'>浙江</div>"},

@@ -1,5 +1,5 @@
 <script setup>
-import TeaRank from '../src/components/rank/TeaRank.vue'; 
+import TeaRank from '../../src/components/rank/TeaRank.vue'; 
 
 </script>
 

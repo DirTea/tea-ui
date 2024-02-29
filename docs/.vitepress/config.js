@@ -7,16 +7,19 @@ export default {
             {
                 text: '组件',
                 items: [
-                    {text: '按钮', link: '/tea-button'},
-                    {text: '计数', link: '/tea-count-to'},
-                    {text: '弹出框', link: '/tea-dialog'},
-                    {text: '排行榜', link: '/tea-rank'},
+                    {text: '按钮', link: '/components/tea-button'},
+                    {text: '计数', link: '/components/tea-count-to'},
+                    {text: '弹出框', link: '/components/tea-dialog'},
+                    {text: '排行榜', link: '/components/tea-rank'},
+                    {text: '卷帘', link: '/components/tea-roller'},
+                    {text: '标签云', link: '/components/tea-tag-cloud'},
                 ]
             },
             {
                 text: '非组件',
                 items: [
-                    {text: '可拖拽表格', link: '/tea-draggable-table'},
+                    {text: 'element-plus可拖拽表格', link: '/demo/tea-draggable-table'},
+                    {text: 'echarts环状图', link: '/demo/tea-doughnut-chart'},
                 ]
             }
         ]

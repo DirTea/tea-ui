@@ -1,6 +1,6 @@
 <script setup>
-import TeaDialog from '../src/components/dialog/TeaDialog.vue'; 
-import TeaButton from '../src/components/button/vue3/TeaButton.vue';
+import TeaDialog from '../../src/components/dialog/TeaDialog.vue'; 
+import TeaButton from '../../src/components/button/vue3/TeaButton.vue';
 import {ref} from "vue";
 
 let dialogVisible = ref(false);

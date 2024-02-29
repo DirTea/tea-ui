@@ -10,11 +10,13 @@
 
 <script setup>
 
+import {onMounted} from "vue";
+
 const props = defineProps({
   // 数据列表
   list: {
     type: Array,
-    default: ()=>  [],
+    default: () => [],
     required: true
   },
   // 尺寸大小 px
@@ -30,7 +32,7 @@ const props = defineProps({
 })
 
 let diameter = props.size // 直径
-let radius = (diameter-100)/2; // 球体半径
+let radius = (diameter - 100) / 2; // 球体半径
 let dtr = Math.PI / 180; // 角度转弧度
 var d = 300;
 var mcList = [];
@@ -56,7 +58,7 @@ var cb = 0
 var sc = 0
 var cc = 0
 
-window.onload = function () {
+function onLoad() {
   var oTag = null;
 
   oDiv = document.getElementById('tagsList');
@@ -74,7 +76,7 @@ window.onload = function () {
   positionAll();
 
   // 直接激活
-  if(props.direction) {
+  if (props.direction) {
     active = true;
     switch (props.direction) {
       case 'right':
@@ -111,15 +113,19 @@ window.onload = function () {
     };
   }
   setInterval(update, 10);
-};
+}
+
+onMounted(() => {
+  onLoad()
+})
+
 function update() {
   var a;
   var b;
   if (active) {
     a = (-Math.min(Math.max(-mouseY, -size), size) / radius) * tspeed;
     b = (Math.min(Math.max(-mouseX, -size), size) / radius) * tspeed;
-  }
-  else {
+  } else {
     a = lasta * 0.98;
     b = lastb * 0.98;
   }
@@ -175,11 +181,9 @@ function depthSort() {
   aTmp.sort(function (vItem1, vItem2) {
     if (vItem1.cz > vItem2.cz) {
       return -1;
-    }
-    else if (vItem1.cz < vItem2.cz) {
+    } else if (vItem1.cz < vItem2.cz) {
       return 1;
-    }
-    else {
+    } else {
       return 0;
     }
   });
@@ -187,6 +191,7 @@ function depthSort() {
     aTmp[i].style.zIndex = i;
   }
 }
+
 function positionAll() {
   var phi = 0;
   var theta = 0;
@@ -211,8 +216,7 @@ function positionAll() {
     if (distr) {
       phi = Math.acos(-1 + (2 * i - 1) / max);
       theta = Math.sqrt(max * Math.PI) * phi;
-    }
-    else {
+    } else {
       phi = Math.random() * (Math.PI);
       theta = Math.random() * (2 * Math.PI);
     }
@@ -221,10 +225,11 @@ function positionAll() {
     mcList[i - 1].cy = radius * Math.sin(theta) * Math.sin(phi);
     mcList[i - 1].cz = radius * Math.cos(phi);
 
-    aA[i - 1].style.left=mcList[i - 1].cx+oDiv.offsetWidth /2-mcList[i - 1].offsetWidth/2+'px';
-    aA[i - 1].style.top=mcList[i - 1].cy+oDiv.offsetHeight/2-mcList[i - 1].offsetHeight/2+'px';
+    aA[i - 1].style.left = mcList[i - 1].cx + oDiv.offsetWidth / 2 - mcList[i - 1].offsetWidth / 2 + 'px';
+    aA[i - 1].style.top = mcList[i - 1].cy + oDiv.offsetHeight / 2 - mcList[i - 1].offsetHeight / 2 + 'px';
   }
 }
+
 //
 function doPosition() {
   var l = oDiv.offsetWidth / 2;
@@ -240,6 +245,7 @@ function doPosition() {
     aA[i].style.opacity = mcList[i].alpha; // 透明度
   }
 }
+
 // 计算abc的sin值和cos值
 function sineCosine(a, b, c) {
   sa = Math.sin(a * dtr);
@@ -254,14 +260,15 @@ function sineCosine(a, b, c) {
 <style scoped>
 #tagsList {
   position: relative;
-  width: v-bind(diameter + 'px');
-  height: v-bind(diameter + 'px');
+  width: v-bind(diameter+ 'px');
+  height: v-bind(diameter+ 'px');
 }
+
 #tagsList a {
   position: absolute;
   top: 0;
   left: 0;
-  font-family: Microsoft YaHei,serif;
+  font-family: Microsoft YaHei, serif;
   font-weight: bold;
   text-decoration: none;
   padding: 3px 6px;

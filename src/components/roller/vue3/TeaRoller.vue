@@ -28,7 +28,7 @@ export default {
             nowIndex.value.pop()
           }
         }))
-        itemOffset += slots[i].props.height ? slots[i].props?.height : 100
+        itemOffset += slots[i].props?.height ? slots[i].props.height : 100
       }
       return h('div', {}, renderList)
     }

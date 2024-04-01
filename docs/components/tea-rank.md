@@ -1,7 +1,11 @@
-<script setup>
-import TeaRank from '../../src/components/rank/TeaRank.vue'; 
+:::demo
 
-</script>
+```vue
 
-<TeaRank rank_width="40vw"></TeaRank>
+<template>
+  <tea-rank rank_width="30vw"></tea-rank>
+</template>
 
+```
+
+:::

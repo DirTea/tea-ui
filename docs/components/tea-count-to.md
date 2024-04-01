@@ -1,5 +1,11 @@
-<script setup>
-import TeaCountTo from '../../src/components/count-to/TeaCountTo.vue'
-</script>
+:::demo
 
-<TeaCountTo />
+```vue
+
+<template>
+  <tea-count-to>默认按钮</tea-count-to>
+</template>
+
+```
+
+:::

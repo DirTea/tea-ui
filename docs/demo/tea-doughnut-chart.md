@@ -1,6 +1,12 @@
-<script setup>
-import TeaDoughnutChart from '../../src/demo/echarts/TeaDoughnutChart.vue'; 
+warning：非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用
+:::demo
 
-</script>
+```vue
 
-<TeaDoughnutChart></TeaDoughnutChart>
+<template>
+  <tea-doughnut-chart></tea-doughnut-chart>
+</template>
+
+```
+
+:::

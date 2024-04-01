@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :class="Class" :disabled="disabled">
+  <button :class="Class" :disabled="disabled" class="button">
     <span class="text-button">
       <slot></slot>
     </span>
@@ -8,26 +8,27 @@
 
 <script>
 export default {
+  name: "TeaButton",
   props: {
-    type:{
+    type: {
       type: String,
       default: "default",
     },
     disabled: {
       type: Boolean,
       default: false,
-    }
+    },
   },
   computed: {
     Class() {
       return [
-        'button',
-        `button-${props.type}`,
-        props.disabled ? 'button-disabled' : ''
-      ]
-    }
-  }
-}
+        "button",
+        `button-${this.type}`,
+        this.disabled ? "button-disabled" : "",
+      ];
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -40,8 +41,10 @@ export default {
   border-radius: 4px;
   cursor: pointer;
 }
-.button :hover,:focus {
-  opacity:.8
+
+.button :hover,
+:focus {
+  opacity: 0.8;
 }
 
 .button-default {
@@ -49,23 +52,27 @@ export default {
   border: 1px solid #dcdfe6;
   background-color: #25599f;
 }
-.button-default :hover,:focus {
-  opacity: .8;
+
+.button-default :hover,
+:focus {
+  opacity: 0.8;
 }
 
 .button-disabled {
-  opacity: .4;
+  opacity: 0.4;
   cursor: no-drop;
 }
-.button-disabled:hover,:focus{
-  opacity: .4;
+
+.button-disabled:hover,
+:focus {
+  opacity: 0.4;
 }
 
 .text-button {
   font-weight: 500;
-  font-size: .875rem !important;
+  font-size: 0.875rem !important;
   line-height: 2.25rem;
-  letter-spacing: .0892857143em !important;
+  letter-spacing: 0.0892857143em !important;
   text-transform: uppercase !important;
 }
 </style>

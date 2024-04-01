@@ -1,0 +1,9 @@
+import{_ as r,G as n,o,b as p,w as s,a as e,c as k,J as i,m as t}from"./chunks/framework.C4LmLhXw.js";const d={};function E(l,c){const a=n("tea-count-to");return o(),p(a,null,{default:s(()=>[e("默认按钮")]),_:1})}const _=r(d,[["render",E]]),u=t("div",{class:"language-vue vp-adaptive-theme"},[t("span",{class:"lang"},"vue"),t("pre",{class:"shiki shiki-themes github-light github-dark vp-code","v-pre":""},[t("code",null,[t("span",{class:"line"}),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"<"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"  <"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-count-to"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">默认按钮</"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-count-to"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"</"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")])])])],-1),f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"components/tea-count-to.md","filePath":"components/tea-count-to.md"}'),m={name:"components/tea-count-to.md"},y=Object.assign(m,{setup(l){return(c,a)=>{const h=n("demo");return o(),k("div",null,[i(h,{customClass:"",sourceCode:`
+<template>
+  <tea-count-to>默认按钮</tea-count-to>
+</template>
+
+`,options:"{}"},{highlight:s(()=>[u]),default:s(()=>[i(_)]),_:1})])}}});export{f as __pageData,y as default};

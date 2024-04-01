@@ -1,13 +1,5 @@
-<template>
+<template></template>
 
-</template>
+<script setup></script>
 
-<script setup>
-
-</script>
-
-<style scoped>
-:deep(.hover) {
-  color: #25599f;
-}
-</style>
+<style scoped></style>

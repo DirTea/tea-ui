@@ -1,3 +1,6 @@
+# 翻转
+
+## 基础用法
 :::demo
 
 ```vue
@@ -24,3 +27,13 @@
 ```
 
 :::
+
+## Attributes
+
+| 参数      | 说明     | 类型            | 可选值                    | 是否必填 | 默认值       |
+| --------- | -------- | --------------- | ------------------------- | -------- | ------------ |
+| width     | 宽度     | number / string | -                         | 是       | -            |
+| height    | 高度     | number / string | -                         | 是       | -            |
+| direction | 翻转反向 | enum            | 'horizontal' / 'vertical' | -        | 'horizontal' |
+| duration  | 翻转时长 | number          | -                         | -        | 1000         |
+| trigger   | 触发方式 | enum            | 'hover' / 'click'         | -        | 'hover'      |

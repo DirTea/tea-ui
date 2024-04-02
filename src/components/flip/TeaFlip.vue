@@ -1,52 +1,78 @@
 <script setup>
-import {computed} from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
   width: {
     type: [Number, String],
-    required: true
+    required: true,
   },
   height: {
     type: [Number, String],
-    required: true
+    required: true,
   },
   direction: {
     type: String,
-    default: 'horizontal'
+    values: ["horizontal", "vertical"],
+    default: "horizontal",
   },
   duration: {
     type: Number,
-    default: 1000
+    default: 1000,
+  },
+  trigger: {
+    type: String,
+    values: ["hover", "click"],
+    default: "hover",
+  },
+});
+
+// 当前是否是正面
+const isFront = ref(true);
+const onClick = () => {
+  if (props.trigger === "click") {
+    isFront.value = !isFront.value;
   }
-})
+};
+const onEnterLeave = () => {
+  if (props.trigger === "hover") {
+    isFront.value = !isFront.value;
+  }
+};
 
 const flipInner = computed(() => {
   return [
-    props.direction === 'horizontal' ? 'flip-inner-x' : '',
-    props.direction === 'vertical' ? 'flip-inner-y' : '',
-  ]
-})
+    props.direction === "horizontal" ? "flip-inner-x" : "",
+    props.direction === "vertical" ? "flip-inner-y" : "",
+  ];
+});
 const flipFront = computed(() => {
   return [
-    props.direction === 'horizontal' ? 'flip-front-x' : '',
-    props.direction === 'vertical' ? 'flip-front-y' : '',
-  ]
-})
+    props.direction === "horizontal" ? "flip-front-x" : "",
+    props.direction === "vertical" ? "flip-front-y" : "",
+  ];
+});
 const flipBack = computed(() => {
   return [
-    props.direction === 'horizontal' ? 'flip-back-x' : '',
-    props.direction === 'vertical' ? 'flip-back-y' : '',
-  ]
-})
+    props.direction === "horizontal" ? "flip-back-x" : "",
+    props.direction === "vertical" ? "flip-back-y" : "",
+  ];
+});
 const duration = computed(() => {
-  return 'transform ' + props.duration + 'ms'
-})
+  return "transform " + props.duration + "ms";
+});
 </script>
 
 <template>
   <div
-      :style="{ width: typeof width === 'number'? width + 'px' : width, height: typeof height === 'number'? height + 'px' : height }"
-      class="flip">
+    :style="{
+      width: typeof width === 'number' ? width + 'px' : width,
+      height: typeof height === 'number' ? height + 'px' : height,
+    }"
+    class="flip"
+    @click="onClick"
+    @mouseenter="onEnterLeave"
+    @mouseleave="onEnterLeave"
+  >
     <div :class="flipInner" class="flip-inner">
       <div :class="flipFront" class="flip-front">
         <slot name="front"></slot>
@@ -79,12 +105,12 @@ const duration = computed(() => {
   backface-visibility: hidden;
 }
 
-.flip:hover .flip-inner-x {
-  transform: rotateY(180deg);
+.flip-inner-x {
+  transform: v-bind("isFront ? 'rotateY(0deg)' : 'rotateY(180deg)'");
 }
 
-.flip:hover .flip-inner-y {
-  transform: rotateX(180deg);
+.flip-inner-y {
+  transform: v-bind("isFront ? 'rotateX(0deg)' : 'rotateX(180deg)'");
 }
 
 .flip-front-x {

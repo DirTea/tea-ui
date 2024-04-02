@@ -1,11 +1,43 @@
+# 排行榜
+
+## 基础用法
 :::demo
 
 ```vue
 
 <template>
-  <tea-rank rank_width="30vw"></tea-rank>
+  <tea-rank rank_width="30vw" :list="list"></tea-rank>
 </template>
+
+<script setup>
+import { ref } from 'vue'
+const list = ref([
+  { title: '第一名', value: 100 },
+  { title: '第二名', value: 90 }, 
+  { title: '第三名', value: 70 }, 
+  { title: '第四名', value: 50 }, 
+  { title: '第五名', value: 20 }
+])
+</script>  
 
 ```
 
 :::
+
+### Attributes
+
+| 参数             | 说明                                               | 类型                                               | 可选值 | 是否必填     | 默认值     |
+|-----------------|--------------------------------------|--------------------------------------------------|------|------------------------------------------------------|---------|
+| list                       | 数据列表                                             | [{ title:&lt;string&gt;, value:&lt;number&gt; }] | - | 是                     | -       |
+| space                  | 行间距                                              | string                                           | - | -                | 5px     |
+| rank_width         | 整体宽度                                             | string                                           | - | -       | auto    |
+| title_width          | 标题宽度                                             | string                                           | - | -        | auto    |
+| max_value | 最大值（若设置了100，则值为50的项长度会占总长度的一半） | number                                           | - | - | 100     |
+| auto_computed | 自动计算每项的长度，开启后max_value会失效，每项长度将以list中的最大value值来计算 | boolean                                          | - | - | true    |
+| background | 每项的背景颜色 | string                                           | - | - | #25599f |
+| is_order | 是否自动排序 | boolean |  |  | true |
+| asc | 是否正序 | boolean                                          | - | - | false |
+| filed_title | 指定标签属性名 | string                                           | - | - | title   |
+| filed_value | 指定值属性名 | string                                           | - | - | value   |
+| animation | 是否开启加载动画 | boolean                                          | - | - | false   |
+| animation_duration | 动画时长 | number                                           | - | - | 500     |

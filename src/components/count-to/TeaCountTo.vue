@@ -1,59 +1,68 @@
 <template>
   <div class="count-to">
     <div class="count-to-item" v-for="i in endValStr.length">
-      <span :id='setId(i)'>0123456789</span>
+      <div class="count-to-span">
+        <div :class="'count-to-num-' + i" class="count-to-num">0</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">1</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">2</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">3</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">4</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">5</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">6</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">7</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">8</div>
+        <div :class="'count-to-num-' + i" class="count-to-num">9</div>
+      </div>
     </div>
   </div>
-
 </template>
 
 <script setup>
-import {onMounted} from "vue";
+import { onMounted } from "vue";
 
-const props =  defineProps({
-  // startVal: {
-  //   type: Number,
-  //   default: 0
-  // },
+const props = defineProps({
+  startVal: {
+    type: Number,
+    default: 0,
+  },
   endVal: {
     type: Number,
-    default: 894151
+    required: true,
   },
   duration: {
     type: Number,
-    default: 100
-  }
-})
-let endValStr = props.endVal.toString()
-let endValList = endValStr.split('')
+    default: 1000,
+  },
+});
+let endValStr = props.endVal.toString();
+let endValList = endValStr.split("");
+let startValStr = props.startVal.toString().padStart(endValList.length, "0");
 
-const setId = (i) => {
-  return "span-" + i
-}
-onMounted(()=> {
-  for(let i=1;i<=endValList.length+1;i++) {
-    let spanDom = document.getElementById('span-'+i)
-    if(spanDom) {
-      let start = 0
-      let end = parseInt(endValList[i-1])
-      let timer = setInterval(fn, props.duration);
-      function fn() {
-        start++
-        if(start>end+1){
-          spanDom.style.transition = `none`
-          start = 0
-          clearInterval(timer)
-        } else {
-          spanDom.style.transition = `transform ${props.duration}ms ease-in-out`
+onMounted(() => {
+  endValList.forEach((item, index) => {
+    const runKeyFrames = `
+      @keyframes test-${index + 1} {
+        0% {
+          transform: translate(0%, ${-100 * startValStr[index]}%);
         }
-        spanDom.style.transform = `translate(-50%,-${start/10*100-12}%)`
+        100% {
+          transform: translate(0%, ${-100 * item}%);
+        }
       }
+    `;
+    const style = document.createElement("style");
+    style.type = "text/css";
+    style.innerHTML = runKeyFrames;
+    const claList = document.getElementsByClassName(
+      `count-to-num-${index + 1}`,
+    );
+    for (let cla of claList) {
+      cla.style.animation = `test-${index + 1} ${props.duration}ms`;
+      cla.style.animationFillMode = "forwards";
+      cla.appendChild(style);
     }
-
-  }
-
-})
-
+  });
+});
 </script>
 
 <style scoped>
@@ -61,24 +70,28 @@ onMounted(()=> {
   display: flex;
 }
 .count-to-item {
-  border: rgba(0, 205, 226, 1) 1px solid;
   height: 60px;
   width: 48px;
   background: #25599f;
   margin: 0 3px;
-  overflow: hidden;
 }
-span{
+.count-to-span {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
   position: relative;
-  left: 50%;
   color: white;
   font-size: 36px;
   font-weight: 700;
-  transform: translate(-50%,2%);
-  transition: transform 500ms ease-in-out;
-  writing-mode: vertical-rl;
-  text-orientation: upright;
-  letter-spacing: 17px;
+  line-height: 60px;
+  overflow: hidden;
 }
-
+.count-to-num {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
 </style>

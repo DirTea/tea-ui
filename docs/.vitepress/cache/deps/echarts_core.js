@@ -1,7 +1,11 @@
 import {
+  installLabelLayout
+} from "./chunk-YFIF3WP3.js";
+import {
   createDimensions,
   createSeriesData_default
 } from "./chunk-R4AQHW6Q.js";
+import "./chunk-LAUGXQ7V.js";
 import {
   AxisModelCommonMixin,
   Axis_default,
@@ -45,10 +49,6 @@ import {
   use,
   version
 } from "./chunk-MXBY2BQY.js";
-import {
-  installLabelLayout
-} from "./chunk-YFIF3WP3.js";
-import "./chunk-LAUGXQ7V.js";
 import {
   Arc_default,
   BezierCurve_default,

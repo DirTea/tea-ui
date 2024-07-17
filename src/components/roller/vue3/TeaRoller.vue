@@ -1,45 +1,71 @@
 <script>
-import {h, ref} from 'vue'
+import { computed, h, ref, defineComponent } from "vue";
 
-export default {
+export default defineComponent({
+  name: "TeaRoller",
   props: {
+    height: {
+      type: Number,
+    },
     width: {
-      type: Number
-    }
+      type: [Number, String],
+    },
   },
-  setup(props, content) {
-    const nowIndex = ref([0])
-    const slots = content.slots.default()
-    let renderList = []
+  setup(props, { slots }) {
+    const nowIndex = ref([0]);
+    const slotsDefault = slots.default();
+    let renderList = [];
+    // const parseHeight = computed(() => {
+    //   return typeof props.height === "number"
+    //     ? props.height + "px"
+    //     : props.height;
+    // });
+    const parseWidth = computed(() => {
+      return typeof props.width === "number" ? props.width + "px" : props.width;
+    });
     const renderer = () => {
-      renderList = []
-      let itemOffset = 0
-      for (let i in slots) {
-        renderList.push(h(slots[i], {
-          rollerLength: slots.length,
-          itemIndex: Number(i),
-          itemStack: nowIndex.value,
-          itemOffset: itemOffset,
-          rollerWidth: props.width,
-          onNext(index) {
-            nowIndex.value.push(index)
-          },
-          onPrev() {
-            nowIndex.value.pop()
-          }
-        }))
-        itemOffset += slots[i].props?.height ? slots[i].props.height : 100
+      renderList = [];
+      let itemOffset = 0;
+      for (let i in slotsDefault) {
+        renderList.push(
+          h(slotsDefault[i], {
+            rollerLength: slotsDefault.length,
+            itemIndex: Number(i),
+            itemStack: nowIndex.value,
+            itemOffset: itemOffset,
+            rollerWidth: parseWidth.value,
+            onNext(index) {
+              nowIndex.value.push(index);
+            },
+            onPrev() {
+              nowIndex.value.pop();
+            },
+          }),
+        );
+        itemOffset += slotsDefault[i].props?.height
+          ? slotsDefault[i].props.height
+          : 100;
       }
-      return h('div', {}, renderList)
-    }
+      return h(
+        "div",
+        {
+          style: `height: ${props.height}vh;width: ${parseWidth.value}`,
+          class: "roller",
+        },
+        renderList,
+      );
+    };
 
-    return () => renderer()
-  }
-}
-
-
+    return () => renderer();
+  },
+});
 </script>
 
-<style lang="scss" scoped>
-
+<style scoped>
+.roller {
+  overflow: scroll;
+}
+.roller::-webkit-scrollbar {
+  display: none;
+}
 </style>

@@ -40,4 +40,5 @@ export default defineConfig({
   vite: {
     plugins: [demoblockVitePlugin()],
   },
+  base: "/tea-ui/",
 });

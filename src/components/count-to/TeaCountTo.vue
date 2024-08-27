@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onUpdated, ref, watch } from "vue";
 
 const props = defineProps({
   startVal: {
@@ -34,16 +34,31 @@ const props = defineProps({
     default: 1000,
   },
 });
-let endValStr = props.endVal.toString();
-let endValList = endValStr.split("");
-let startValStr = props.startVal.toString().padStart(endValList.length, "0");
+let endValStr = ref("");
+let endValList = ref([]);
+let startValStr = ref("");
+watch(
+  () => props.endVal,
+  (val) => {
+    endValStr.value = val.toString();
+    endValList.value = endValStr.value.split("");
+    console.log(endValStr.value);
+  },
+);
+watch(
+  () => props.startVal,
+  (val) => {
+    startValStr.value = val.toString().padStart(endValList.value.length, "0");
+  },
+  { immediate: true },
+);
 
-onMounted(() => {
-  endValList.forEach((item, index) => {
+onUpdated(() => {
+  endValList.value.forEach((item, index) => {
     const runKeyFrames = `
       @keyframes test-${index + 1} {
         0% {
-          transform: translate(0%, ${-100 * startValStr[index]}%);
+          transform: translate(0%, ${-100 * startValStr.value[index]}%);
         }
         100% {
           transform: translate(0%, ${-100 * item}%);
@@ -72,7 +87,8 @@ onMounted(() => {
 .count-to-item {
   height: 60px;
   width: 48px;
-  background: #25599f;
+  background: #273f56;
+  border: 1px solid #00cde2;
   margin: 0 3px;
 }
 .count-to-span {

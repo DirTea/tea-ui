@@ -1,7 +1,11 @@
 <script setup>
-import { computed, ref } from "vue";
+import { computed } from "vue";
 
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
   width: {
     type: [Number, String],
     required: true,
@@ -24,18 +28,30 @@ const props = defineProps({
     values: ["hover", "click"],
     default: "hover",
   },
+  canFlip: {
+    type: Boolean,
+    default: true,
+  },
 });
 
-// 当前是否是正面
-const isFront = ref(true);
+const emit = defineEmits(["update:modelValue", "onFlip", "onUnFlip"]);
 const onClick = () => {
-  if (props.trigger === "click") {
-    isFront.value = !isFront.value;
+  if (props.trigger === "click" && props.canFlip) {
+    triggerEmit();
+    emit("update:modelValue", !props.modelValue);
   }
 };
 const onEnterLeave = () => {
-  if (props.trigger === "hover") {
-    isFront.value = !isFront.value;
+  if (props.trigger === "hover" && props.canFlip) {
+    triggerEmit();
+    emit("update:modelValue", !props.modelValue);
+  }
+};
+const triggerEmit = () => {
+  if (!props.modelValue) {
+    emit("onFlip");
+  } else {
+    emit("onUnFlip");
   }
 };
 
@@ -64,14 +80,14 @@ const duration = computed(() => {
 
 <template>
   <div
-    :style="{
+      :style="{
       width: typeof width === 'number' ? width + 'px' : width,
       height: typeof height === 'number' ? height + 'px' : height,
     }"
-    class="flip"
-    @click="onClick"
-    @mouseenter="onEnterLeave"
-    @mouseleave="onEnterLeave"
+      class="flip"
+      @click="onClick"
+      @mouseenter="onEnterLeave"
+      @mouseleave="onEnterLeave"
   >
     <div :class="flipInner" class="flip-inner">
       <div :class="flipFront" class="flip-front">
@@ -106,11 +122,11 @@ const duration = computed(() => {
 }
 
 .flip-inner-x {
-  transform: v-bind("isFront ? 'rotateY(0deg)' : 'rotateY(180deg)'");
+  transform: v-bind("!props.modelValue ? 'rotateY(0deg)' : 'rotateY(180deg)'");
 }
 
 .flip-inner-y {
-  transform: v-bind("isFront ? 'rotateX(0deg)' : 'rotateX(180deg)'");
+  transform: v-bind("!props.modelValue ? 'rotateX(0deg)' : 'rotateX(180deg)'");
 }
 
 .flip-front-x {

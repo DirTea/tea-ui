@@ -165,7 +165,12 @@ const startSort = () => {
     afterList = afterList.slice(0, props.top);
   }
 };
-startSort();
+watch(
+  () => props.list,
+  () => {
+    startSort();
+  },
+);
 
 let titleWidth = ref("auto");
 let titleWidthNum = ref(0);

@@ -1,20 +1,42 @@
 <template>
-  <div>
-    <TeaRank
-      type="outer"
-      rank_width="400px"
-      text_space="20px"
-      :list="list"
-      :background="[
-        ['#F35B4C', '#F08656'],
-        ['#EA9C47', '#E9C459'],
-        ['#3ECD7E', '#6ECDA5'],
-        ['#3C97F0', '#55ADEC'],
-      ]"
-      :top="8"
-      item_height="28px"
-    ></TeaRank>
-  </div>
+  <tea-flip height="135vw" width="90vw" trigger="click" v-model="shit">
+    <template #front>
+      <view
+        style="
+          height: 100%;
+          width: 100%;
+          border: 1px black solid;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <text
+          style="
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            font-size: 80px;
+          "
+          >LIVE
+        </text>
+      </view>
+    </template>
+    <template #back>
+      <view style="height: 100%; width: 100%; border: 1px black solid">
+        <view
+          style="
+            height: 30px;
+            width: 100%;
+            border: 1px black solid;
+            display: flex;
+            align-items: center;
+          "
+        >
+          <text style="padding-left: 10px">444</text>
+        </view>
+      </view>
+    </template>
+  </tea-flip>
 
   <!--  <tea-roller>-->
   <!--    <tea-roller-item>-->
@@ -96,15 +118,10 @@
 import TeaRollerItem from "./components/test/TeaRollerItem.vue";
 import TeaRoller from "./components/test/TeaRoller.vue";
 import Caonima from "./components/preview/Caonima.vue";
-import TeaRank from "./components/rank/TeaRank.vue";
+import TeaFlip from "./components/flip/TeaFlip.vue";
 import { ref } from "vue";
 
-const list = ref([
-  { title: "01.煤炭购", value: 100 },
-  { title: "02.石油", value: 80 },
-  { title: "03.第三名", value: 60 },
-  { title: "04.煤炭", value: 0 },
-]);
+const shit = ref(false);
 </script>
 
 <style scoped></style>

@@ -1,73 +1,73 @@
 {
-  "hash": "e1a27f53",
+  "hash": "6b5c032b",
   "configHash": "30e7b1b7",
-  "lockfileHash": "42b41eca",
-  "browserHash": "33058819",
+  "lockfileHash": "f765b6f9",
+  "browserHash": "cb57e1d9",
   "optimized": {
     "vue": {
       "src": "../../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "d2b60cfb",
+      "fileHash": "3f7efab1",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../../node_modules/@vue/devtools-api/dist/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "26342823",
+      "fileHash": "9af94435",
       "needsInterop": false
     },
     "vitepress > @vueuse/core": {
       "src": "../../../../node_modules/@vueuse/core/index.mjs",
       "file": "vitepress___@vueuse_core.js",
-      "fileHash": "076ad35d",
+      "fileHash": "344c783a",
       "needsInterop": false
     },
     "element-plus": {
       "src": "../../../../node_modules/element-plus/es/index.mjs",
       "file": "element-plus.js",
-      "fileHash": "4ba5ea6b",
+      "fileHash": "c5969fbd",
       "needsInterop": false
     },
     "vue-draggable-plus": {
       "src": "../../../../node_modules/vue-draggable-plus/dist/vue-draggable-plus.js",
       "file": "vue-draggable-plus.js",
-      "fileHash": "cf964f7b",
+      "fileHash": "7ff743ad",
       "needsInterop": false
     },
     "echarts/core": {
       "src": "../../../../node_modules/echarts/core.js",
       "file": "echarts_core.js",
-      "fileHash": "679b9158",
+      "fileHash": "297f77ae",
       "needsInterop": false
     },
     "echarts/components": {
       "src": "../../../../node_modules/echarts/components.js",
       "file": "echarts_components.js",
-      "fileHash": "c3f38f9c",
+      "fileHash": "1800b166",
       "needsInterop": false
     },
     "echarts/charts": {
       "src": "../../../../node_modules/echarts/charts.js",
       "file": "echarts_charts.js",
-      "fileHash": "676acef0",
+      "fileHash": "4a9e01c7",
       "needsInterop": false
     },
     "echarts/features": {
       "src": "../../../../node_modules/echarts/features.js",
       "file": "echarts_features.js",
-      "fileHash": "437efe11",
+      "fileHash": "3a644ef7",
       "needsInterop": false
     },
     "echarts/renderers": {
       "src": "../../../../node_modules/echarts/renderers.js",
       "file": "echarts_renderers.js",
-      "fileHash": "c8c75f0a",
+      "fileHash": "8c7987ac",
       "needsInterop": false
     },
     "vue-demi": {
       "src": "../../../../node_modules/vitepress/lib/vue-demi.mjs",
       "file": "vue-demi.js",
-      "fileHash": "81f43080",
+      "fileHash": "49a8c094",
       "needsInterop": false
     }
   },

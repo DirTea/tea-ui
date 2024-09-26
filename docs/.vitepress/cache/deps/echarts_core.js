@@ -1,11 +1,7 @@
 import {
-  installLabelLayout
-} from "./chunk-YFIF3WP3.js";
-import {
   createDimensions,
   createSeriesData_default
-} from "./chunk-R4AQHW6Q.js";
-import "./chunk-LAUGXQ7V.js";
+} from "./chunk-7VSZJW2V.js";
 import {
   AxisModelCommonMixin,
   Axis_default,
@@ -48,7 +44,15 @@ import {
   throttle,
   use,
   version
-} from "./chunk-MXBY2BQY.js";
+} from "./chunk-K2WVBYSR.js";
+import {
+  brushSingle,
+  zrender_exports
+} from "./chunk-XLIOIY5X.js";
+import {
+  installLabelLayout
+} from "./chunk-YFIF3WP3.js";
+import "./chunk-LAUGXQ7V.js";
 import {
   Arc_default,
   BezierCurve_default,
@@ -112,10 +116,6 @@ import {
   toCamelCase,
   updateProps
 } from "./chunk-M3HCBZP4.js";
-import {
-  brushSingle,
-  zrender_exports
-} from "./chunk-XLIOIY5X.js";
 import {
   BoundingRect_default,
   CompoundPath_default,

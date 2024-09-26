@@ -1,13 +1,7 @@
 import {
   createSeriesData_default,
   prepareSeriesDataSchema
-} from "./chunk-R4AQHW6Q.js";
-import {
-  getLabelLineStatesModels,
-  limitSurfaceAngle,
-  limitTurnAngle,
-  setLabelLineStyle
-} from "./chunk-LAUGXQ7V.js";
+} from "./chunk-7VSZJW2V.js";
 import {
   LineDraw_default,
   Line_default as Line_default2,
@@ -37,7 +31,7 @@ import {
   updateViewOnPan,
   updateViewOnZoom,
   warnDeprecated
-} from "./chunk-JQBKPRC3.js";
+} from "./chunk-ZVJ6ZVDY.js";
 import {
   Chart_default,
   CoordinateSystem_default,
@@ -56,7 +50,14 @@ import {
   normalizeSymbolSize,
   throttle,
   use
-} from "./chunk-MXBY2BQY.js";
+} from "./chunk-K2WVBYSR.js";
+import "./chunk-XLIOIY5X.js";
+import {
+  getLabelLineStatesModels,
+  limitSurfaceAngle,
+  limitTurnAngle,
+  setLabelLineStyle
+} from "./chunk-LAUGXQ7V.js";
 import {
   BezierCurve_default,
   Circle_default,
@@ -140,7 +141,6 @@ import {
   warn,
   windowOpen
 } from "./chunk-M3HCBZP4.js";
-import "./chunk-XLIOIY5X.js";
 import {
   BoundingRect_default,
   Displayable_default,

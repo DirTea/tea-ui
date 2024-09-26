@@ -25,7 +25,9 @@ let dialogVisible = ref(false);
 
 :::
 
-| 参数                  | 说明           | 类型    | 可选值 | 是否必填 | 默认值 |
-| --------------------- | -------------- | ------- | ------ | -------- | ------ |
-| model-value / v-model | 是否弹出dialog | boolean | -      | 是       | -      |
-| modal                 | 是否开启遮罩层 | boolean | -      | -        | true   |
+| 参数                    | 说明         | 类型                   | 可选值 | 是否必填 | 默认值                           |
+| --------------------- | ---------- | -------------------- | --- | ---- | ----------------------------- |
+| model-value / v-model | 是否弹出dialog | boolean              | -   | 是    | -                             |
+| modal                 | 是否开启遮罩层    | boolean              | -   | -    | true                          |
+| background            | 使用背景图片     | string               | -   | -    | - |
+| append-to             | 挂载到哪个元素    | string / HTMLElement | -   | -    | 'body'                        |

@@ -30,7 +30,7 @@ import {
   sliderMove,
   stopPreviousKeyframeAnimationAndRestore,
   updateLeaveTo
-} from "./chunk-JQBKPRC3.js";
+} from "./chunk-ZVJ6ZVDY.js";
 import {
   AxisModelCommonMixin,
   Axis_default,
@@ -62,7 +62,12 @@ import {
   symbolBuildProxies,
   unionAxisExtentFromData,
   use
-} from "./chunk-MXBY2BQY.js";
+} from "./chunk-K2WVBYSR.js";
+import {
+  addEventListener,
+  normalizeEvent,
+  stop
+} from "./chunk-XLIOIY5X.js";
 import {
   Circle_default,
   Component_default,
@@ -161,11 +166,6 @@ import {
   warn,
   windowOpen
 } from "./chunk-M3HCBZP4.js";
-import {
-  addEventListener,
-  normalizeEvent,
-  stop
-} from "./chunk-XLIOIY5X.js";
 import {
   BoundingRect_default,
   Displayable_default,

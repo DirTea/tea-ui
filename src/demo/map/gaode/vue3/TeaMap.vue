@@ -1,20 +1,24 @@
 <template>
-  <input id='input' placeholder="请输入地址搜索"/>
+  <input id="input" placeholder="请输入地址搜索" />
   <div id="container"></div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
 
-let AMap: any
-let map: any
+window._AMapSecurityConfig = {
+  securityJsCode: "", // 安全密钥
+};
+
+let AMap
+let map
 
 // 初始化地图
 const initMap = () => {
   AMapLoader.load({
-    "key": "673b9d195b95c28017d6799f850fa6ba", // 申请好的Web端开发者Key，首次调用 load 时必填
+    "key": "", // 申请好的Web端开发者Key，首次调用 load 时必填
     "version": "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
     "plugins": ['AMap.Geolocation', 'AMap.MapType', 'AMap.PlaceSearch', 'AMap.AutoComplete', 'AMap.GeoJSON'], // 需要使用的的插件列表
   }).then(Amap => {
@@ -72,7 +76,7 @@ const location = () => {
 }
 
 // 添加单个标记点
-const setMarker = (e: any) => {
+const setMarker = (e) => {
   if(AMap && e) {
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
     const marker = new AMap.Marker({
@@ -86,7 +90,7 @@ const setMarker = (e: any) => {
 }
 
 // 添加信息窗体
-const setInfoWindow = (position: any) => {
+const setInfoWindow = (position) => {
   let content = [
     "这里是信息弹窗",
   ];
@@ -111,7 +115,7 @@ const searchIn = () => {
         map: map
       });  //构造地点查询类
       auto.on("select", select); //注册监听，当选中某条记录时会触发
-      function select(e: any) {
+      function select(e) {
         placeSearch.setCity(e.poi.adcode);
         placeSearch.search(e.poi.name);  //关键字查询查询
       }
@@ -150,12 +154,18 @@ const setGeoJson = () => {
   width: 500px;
 }
 
-/* 去除高德水印 */
+/* 去除水印 */
 :deep(.amap-logo) {
-  display: none!important;
+  display: none !important;
 }
 :deep(.amap-copyright) {
-  display: none!important;
+  display: none !important;
+}
+
+/* 修改标记点文本 */
+:deep(.amap-marker-label) {
+  background-color: transparent;
+  border: none;
+  padding: 0;
 }
 </style>
-

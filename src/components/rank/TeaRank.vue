@@ -169,7 +169,7 @@ watch(
   () => props.list,
   () => {
     startSort();
-  },
+  },{ immediate: true }
 );
 
 let titleWidth = ref("auto");

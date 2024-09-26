@@ -1,14 +1,28 @@
 <template>
-  <teleport to="body">
-    <div
-      class="dialog-outside"
-      :style="{ 'background-color': modal ? 'rgba(0,0,0,0.5)' : 'transparent' }"
-      v-if="modelValue"
-    >
-      <div class="dialog-inside">
-        <slot></slot>
+  <teleport :to="appendTo">
+    <Transition name="fade">
+      <div
+        class="dialog-outside"
+        :style="{
+          'background-color': modal ? 'rgba(0,0,0,0.6)' : 'transparent',
+        }"
+        v-show="modelValue"
+      >
+        <Transition name="slide">
+          <div
+            v-if="modelValue"
+            class="dialog-inside"
+            :style="{
+              'background-image': background
+                ? `url('${props.background}')`
+                : 'none',
+            }"
+          >
+            <slot></slot>
+          </div>
+        </Transition>
       </div>
-    </div>
+    </Transition>
   </teleport>
 </template>
 
@@ -25,6 +39,15 @@ const props = defineProps({
   modal: {
     type: Boolean,
     default: true,
+  },
+  // 使用背景图片
+  background: {
+    type: String,
+  },
+  // 挂载到哪个元素
+  appendTo: {
+    type: [String, HTMLElement],
+    default: "body",
   },
 });
 
@@ -59,6 +82,26 @@ watch(
   z-index: 9999;
 }
 .dialog-inside {
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
   margin: auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: all 0.2s;
+}
+.slide-enter-from,
+.slide-leave-to {
+  transform: translateY(-50px);
 }
 </style>

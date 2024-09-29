@@ -26,7 +26,7 @@
   </teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { watch } from "vue";
 
 const props = defineProps({
@@ -54,8 +54,10 @@ const props = defineProps({
 // 弹出框是否显示
 const emit = defineEmits(["update:modelValue"]);
 document.addEventListener("click", (e) => {
-  if (e.target.classList.contains("dialog-outside")) {
-    document.body.style.overflow = null;
+  const target = e.target as HTMLDivElement;
+  if (target.classList.contains("dialog-outside")) {
+    const body = document.body as HTMLBodyElement;
+    body.style.overflow = "auto";
     emit("update:modelValue", false);
   }
 });

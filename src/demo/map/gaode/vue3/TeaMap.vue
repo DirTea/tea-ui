@@ -1,21 +1,30 @@
 <template>
   <!--  <input id="input" placeholder="请输入地址搜索" />-->
-  <div id="container"></div>
+  <div id="container">
+    <TeaMapController
+      :map="map"
+      :list="[
+        { title: '图层示例1', onShow: onShow1 },
+        { title: '图层示例2', onShow: onShow2 },
+      ]"
+    ></TeaMapController>
+  </div>
 </template>
 
 <script setup>
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
-import { h } from "vue";
+import { h, ref } from "vue";
 import { TeaDialog } from "../../../../components/dialog/TeaDialog";
+import TeaMapController from "./TeaMapController.vue";
 
 window._AMapSecurityConfig = {
   securityJsCode: "21f22f00721c292e5baff2bb7b02b1c2", // 安全密钥
 };
 
 let AMap;
-let map;
+let map = ref({});
 
 // 初始化地图
 const initMap = () => {
@@ -32,7 +41,7 @@ const initMap = () => {
   }).then((Amap) => {
     AMap = Amap;
     // 添加默认图层
-    map = new AMap.Map("container", {
+    map.value = new AMap.Map("container", {
       layers: [
         new AMap.TileLayer.Satellite(), // 卫星图
         new AMap.TileLayer.RoadNet(), // 路网
@@ -44,23 +53,49 @@ const initMap = () => {
 };
 initMap();
 
-// 添加图层控件
-const setController = () => {
+// 添加地图控件
+const setMapController = () => {
   // 添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
-  map.addControl(new AMap.MapType());
+  map.value.addControl(new AMap.MapType());
   // 其他控件参考https://lbs.amap.com/api/javascript-api-v2/guide/overlays/toolbar
 };
 
-// 添加单个标记点
+// 添加图层控件
+const onShow1 = () => {
+  return new Promise((resolve) => {
+    // 此处可以调用后端接口获取点位
+    let layer = [];
+    const marker = setMarker({
+      lng: 120.631155,
+      lat: 28.736966,
+    });
+    layer.push(marker);
+    resolve(layer);
+  });
+};
+const onShow2 = () => {
+  return new Promise((resolve) => {
+    // 此处可以调用后端接口获取点位
+    let layer = [];
+    const marker = setMarker({
+      lng: 121.631155,
+      lat: 29.736966,
+    });
+    layer.push(marker);
+    resolve(layer);
+  });
+};
+
+// 创建单个标记点
 const setMarker = (e) => {
   if (AMap && e) {
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
     const marker = new AMap.Marker({
       position: position,
     });
-    // setDialog(marker);
-    // setInfoWindow(position)
-    map.add(marker);
+    setDialog(marker);
+    setInfoWindow(position);
+    return marker;
   } else {
     console.log("AMap未加载或传参错误");
   }
@@ -76,14 +111,13 @@ const setInfoWindow = (position) => {
     content: content.join("<br>"), //传入 dom 对象，或者 html 字符串
   });
   // 打开信息窗体
-  infoWindow.open(map, position);
+  // infoWindow.open(map.value, position);
 };
 
 // marker添加弹出框
 const setDialog = (marker) => {
   marker.on("click", function (e) {
     TeaDialog({
-      props: { background: "/src/assets/vue.svg" },
       content: h("div", {}, "弹出框内容"),
     });
   });
@@ -92,7 +126,7 @@ const setDialog = (marker) => {
 // 添加GeoJson图层
 // 其他格式的矢量文件必须先转化为geojson
 const setGeoJson = () => {
-  if (AMap && map) {
+  if (AMap && map.value) {
     axios.get("/chongqing.json").then((res) => {
       let geojson = new AMap.GeoJSON({
         geoJSON: res.data,
@@ -108,14 +142,14 @@ const setGeoJson = () => {
           return polygon;
         },
       });
-      map.add(geojson);
+      map.value.add(geojson);
     });
   }
 };
 
 // 定位
 const setLocation = () => {
-  if (AMap && map) {
+  if (AMap && map.value) {
     let geolocation = new AMap.Geolocation({
       // 是否使用高精度定位，默认：true
       enableHighAccuracy: true,
@@ -132,7 +166,7 @@ const setLocation = () => {
       showCircle: false,
     });
     // 添加定位按钮控件
-    map.addControl(geolocation);
+    map.value.addControl(geolocation);
     geolocation.on("complete", onComplete);
     geolocation.on("onError", onError);
     function onComplete(data) {
@@ -156,7 +190,7 @@ const setSearch = () => {
       city: "全国",
     });
     let placeSearch = new AMap.PlaceSearch({
-      map: map,
+      map: map.value,
     }); //构造地点查询类
     autoComplete.on("select", select); //注册监听，当选中某条记录时会触发
     function select(e) {

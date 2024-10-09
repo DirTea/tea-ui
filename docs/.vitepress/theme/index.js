@@ -13,7 +13,7 @@ import TeaRank from "../../../src/components/rank/TeaRank.vue";
 import TeaRollerItem from "../../../src/components/roller/vue3/TeaRollerItem.vue";
 import TeaRoller from "../../../src/components/roller/vue3/TeaRoller.vue";
 import TeaTagCloud from "../../../src/components/tag-cloud/TeaTagCloud.vue";
-import TeaDoughnutChart from "../../../src/demo/echarts/TeaDoughnutChart.vue";
+import TeaDoughnutChart from "../../../src/demo/echarts/vue2/TeaDoughnutChart.vue";
 import TeaDraggableTable from "../../../src/demo/draggable-table/TeaDraggableTable.vue";
 export default {
   ...DefaultTheme,

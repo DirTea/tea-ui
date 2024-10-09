@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
@@ -19,12 +19,12 @@ import { h, ref } from "vue";
 import { TeaDialog } from "../../../../components/dialog/TeaDialog";
 import TeaMapController from "./TeaMapController.vue";
 
-window._AMapSecurityConfig = {
+(window as any)._AMapSecurityConfig = {
   securityJsCode: "21f22f00721c292e5baff2bb7b02b1c2", // 安全密钥
 };
 
-let AMap;
-let map = ref({});
+let AMap: any;
+let map = ref();
 
 // 初始化地图
 const initMap = () => {
@@ -56,7 +56,7 @@ initMap();
 // 添加地图控件
 const setMapController = () => {
   // 添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
-  map.value.addControl(new AMap.MapType());
+  map.value?.addControl(new AMap.MapType());
   // 其他控件参考https://lbs.amap.com/api/javascript-api-v2/guide/overlays/toolbar
 };
 
@@ -87,7 +87,7 @@ const onShow2 = () => {
 };
 
 // 创建单个标记点
-const setMarker = (e) => {
+const setMarker = (e: { lng: number; lat: number }) => {
   if (AMap && e) {
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
     const marker = new AMap.Marker({
@@ -102,7 +102,7 @@ const setMarker = (e) => {
 };
 
 // marker添加信息窗体
-const setInfoWindow = (position) => {
+const setInfoWindow = (position: AMap.LngLat) => {
   let content = ["这里是信息弹窗"];
   // 创建 infoWindow 实例
   let infoWindow = new AMap.InfoWindow({
@@ -115,9 +115,10 @@ const setInfoWindow = (position) => {
 };
 
 // marker添加弹出框
-const setDialog = (marker) => {
-  marker.on("click", function (e) {
+const setDialog = (marker: AMap.Marker) => {
+  marker.on("click", () => {
     TeaDialog({
+      props: {},
       content: h("div", {}, "弹出框内容"),
     });
   });
@@ -130,19 +131,19 @@ const setGeoJson = () => {
     axios.get("/chongqing.json").then((res) => {
       let geojson = new AMap.GeoJSON({
         geoJSON: res.data,
-        getPolygon: (geojson, lnglats) => {
+        getPolygon: (lnglats: AMap.LngLatLike) => {
           let polygon = new AMap.Polygon({
             path: lnglats,
             strokeColor: "white", // 边框颜色
             fillColor: "red", // 填充颜色
           });
-          polygon.on("click", (e) => {
+          polygon.on("click", (e: any) => {
             console.log(e);
           });
           return polygon;
         },
       });
-      map.value.add(geojson);
+      map.value?.add(geojson);
     });
   }
 };
@@ -169,11 +170,11 @@ const setLocation = () => {
     map.value.addControl(geolocation);
     geolocation.on("complete", onComplete);
     geolocation.on("onError", onError);
-    function onComplete(data) {
+    function onComplete(data: any) {
       // 定位成功后调用
       console.log(data);
     }
-    function onError(data) {
+    function onError(data: any) {
       // 定位出错
       console.log(data);
     }
@@ -193,7 +194,7 @@ const setSearch = () => {
       map: map.value,
     }); //构造地点查询类
     autoComplete.on("select", select); //注册监听，当选中某条记录时会触发
-    function select(e) {
+    function select(e: any) {
       placeSearch.setCity(e.poi.adcode);
       placeSearch.search(e.poi.name); //关键字查询查询
     }

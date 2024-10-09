@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
-    "@amap/amap-jsapi-types": "^0.0.13",
+    "@amap/amap-jsapi-types": "^0.0.15",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.7",
     "echarts": "^5.4.3",

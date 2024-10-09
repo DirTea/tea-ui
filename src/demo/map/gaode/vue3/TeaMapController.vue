@@ -12,7 +12,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from "vue";
 
 const props = defineProps({
@@ -24,7 +24,7 @@ const props = defineProps({
    * [Object: { title: 图层名, onShow: 传入一个返回值是promise的方法，resolve的值是layer数组，用于加载数据 }]
    */
   list: {
-    type: Array,
+    type: Array<{ title: string; onShow: Function }>,
     default: () => [],
   },
   // 是否可以多选
@@ -44,7 +44,7 @@ watch(
   () => props.map,
   () => {
     for (let index in props.list) {
-      props.list[index].onShow().then((res) => {
+      props.list[index].onShow().then((res: AMap.Marker[]) => {
         layerMap.value.set(Number(index), res);
       });
     }
@@ -52,29 +52,29 @@ watch(
 );
 
 const activeMap = ref(new Map());
-const activeComputed = (index) => {
+const activeComputed = (index: number) => {
   return activeMap.value.has(index);
 };
 
-const onSelect = (index) => {
+const onSelect = (index: number) => {
   if (activeComputed(index)) {
-    props.map.remove(activeMap.value.get(index));
+    props.map?.remove(activeMap.value.get(index));
     activeMap.value.delete(index);
   } else {
     if (!props.isMultiple) {
       activeMap.value.forEach((value, key) => {
-        props.map.remove(value);
+        props.map?.remove(value);
         activeMap.value.delete(key);
       });
     }
     if (props.isReload) {
-      props.list[index].onShow().then((res) => {
-        props.map.add(res);
+      props.list[index].onShow().then((res: AMap.Marker[]) => {
+        props.map?.add(res);
         activeMap.value.set(index, res);
       });
     } else {
       let layer = layerMap.value.get(index);
-      props.map.add(layer);
+      props.map?.add(layer);
       activeMap.value.set(index, layer);
     }
   }

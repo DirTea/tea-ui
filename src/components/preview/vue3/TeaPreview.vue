@@ -1,4 +1,21 @@
-<script setup>
+<template>
+  <el-image
+    v-if="isImage"
+    :fit="fit"
+    :preview-src-list="[realSrc]"
+    :src="realSrc"
+    :style="{ width: width, height: height }"
+    hide-on-click-modal
+    lazy
+    preview-teleported
+  />
+  <div v-else class="preview-file" @click="previewFile">
+    <span>{{ suffix }}</span>
+    <span style="margin-top: 5px">点击查看</span>
+  </div>
+</template>
+
+<script setup lang="ts">
 import { computed } from "vue";
 import { ElImage } from "element-plus";
 
@@ -28,7 +45,9 @@ const props = defineProps({
 
 // 真实路径
 const realSrc = computed(() => {
-  if (/http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/.test(props.src)) {
+  if (
+    /http(s)?:\/\/([\w-]+\.)+[\w-]+(\/[\w- .\/?%&=]*)?/.test(<string>props.src)
+  ) {
     return props.src;
   }
   return props.baseUrl + props.src;
@@ -43,7 +62,7 @@ const suffix = computed(() => {
 const isImage = computed(() => {
   return (
     ["png", "jpg", "jpeg", "bmp", "gif", "webp", "psd", "svg", "tiff"].indexOf(
-      suffix.value,
+      suffix.value!.toLowerCase(),
     ) !== -1
   );
 });
@@ -52,23 +71,6 @@ const previewFile = () => {
   window.open(realSrc.value);
 };
 </script>
-
-<template>
-  <el-image
-    v-if="isImage"
-    :fit="fit"
-    :preview-src-list="[realSrc]"
-    :src="realSrc"
-    :style="{ width: width, height: height }"
-    hide-on-click-modal
-    lazy
-    preview-teleported
-  />
-  <div v-else class="preview-file" @click="previewFile">
-    <span>{{ suffix }}</span>
-    <span style="margin-top: 5px">点击查看</span>
-  </div>
-</template>
 
 <style scoped>
 .preview-file {

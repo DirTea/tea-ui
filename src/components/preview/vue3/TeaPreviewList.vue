@@ -1,4 +1,18 @@
-<script setup>
+<template>
+  <div class="preview-list">
+    <tea-preview
+      v-for="(item, index) in srcList"
+      :key="index"
+      :baseUrl="baseUrl"
+      :fit="fit"
+      :height="height"
+      :src="item"
+      :width="width"
+    ></tea-preview>
+  </div>
+</template>
+
+<script setup lang="ts">
 import { computed } from "vue";
 import TeaPreview from "./TeaPreview.vue";
 
@@ -30,24 +44,10 @@ const srcList = computed(() => {
   if (Array.isArray(props.src)) {
     return props.src;
   } else {
-    return props.src.split(",");
+    return props.src!.split(",");
   }
 });
 </script>
-
-<template>
-  <div class="preview-list">
-    <tea-preview
-      v-for="(item, index) in srcList"
-      :key="index"
-      :baseUrl="baseUrl"
-      :fit="fit"
-      :height="height"
-      :src="item"
-      :width="width"
-    ></tea-preview>
-  </div>
-</template>
 
 <style scoped>
 .preview-list {

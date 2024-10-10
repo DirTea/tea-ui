@@ -24,7 +24,7 @@ export const TeaDialog = (options: optionsType) => {
       "onUpdate:modelValue": updateShow,
       ...options.props,
     },
-    options.content,
+    () => options.content,
   );
   render(vnode, div);
   dialogRef.value = div;

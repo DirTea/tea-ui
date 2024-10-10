@@ -6,8 +6,8 @@
   </button>
 </template>
 
-<script setup>
-import {computed} from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 
 const props = defineProps({
   type: {
@@ -17,17 +17,16 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
-  }
-})
+  },
+});
 
 const Class = computed(() => {
   return [
-    'button',
+    "button",
     `button-${props.type}`,
-    props.disabled ? 'button-disabled' : ''
-  ]
-})
-
+    props.disabled ? "button-disabled" : "",
+  ];
+});
 </script>
 
 <style scoped>
@@ -41,8 +40,9 @@ const Class = computed(() => {
   cursor: pointer;
 }
 
-.button :hover, :focus {
-  opacity: .8
+.button :hover,
+:focus {
+  opacity: 0.8;
 }
 
 .button-default {
@@ -51,25 +51,26 @@ const Class = computed(() => {
   background-color: #25599f;
 }
 
-.button-default :hover, :focus {
-  opacity: .8;
+.button-default :hover,
+:focus {
+  opacity: 0.8;
 }
 
 .button-disabled {
-  opacity: .4;
+  opacity: 0.4;
   cursor: no-drop;
 }
 
-.button-disabled:hover, :focus {
-  opacity: .4;
+.button-disabled:hover,
+:focus {
+  opacity: 0.4;
 }
 
 .text-button {
   font-weight: 500;
-  font-size: .875rem !important;
+  font-size: 0.875rem !important;
   line-height: 2.25rem;
-  letter-spacing: .0892857143em !important;
+  letter-spacing: 0.0892857143em !important;
   text-transform: uppercase !important;
 }
 </style>
-

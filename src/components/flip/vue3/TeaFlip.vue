@@ -1,10 +1,33 @@
-<script setup>
+<template>
+  <div
+    :style="{
+      width: typeof width === 'number' ? width + 'px' : width,
+      height: typeof height === 'number' ? height + 'px' : height,
+    }"
+    class="flip"
+    @click="onClick"
+    @mouseenter="onEnterLeave"
+    @mouseleave="onEnterLeave"
+  >
+    <div :class="flipInner" class="flip-inner">
+      <div :class="flipFront" class="flip-front">
+        <slot name="front"></slot>
+      </div>
+      <div :class="flipBack" class="flip-back">
+        <slot name="back"></slot>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
 import { computed } from "vue";
 
 const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
+    required: true,
   },
   width: {
     type: [Number, String],
@@ -77,28 +100,6 @@ const duration = computed(() => {
   return "transform " + props.duration + "ms";
 });
 </script>
-
-<template>
-  <div
-      :style="{
-      width: typeof width === 'number' ? width + 'px' : width,
-      height: typeof height === 'number' ? height + 'px' : height,
-    }"
-      class="flip"
-      @click="onClick"
-      @mouseenter="onEnterLeave"
-      @mouseleave="onEnterLeave"
-  >
-    <div :class="flipInner" class="flip-inner">
-      <div :class="flipFront" class="flip-front">
-        <slot name="front"></slot>
-      </div>
-      <div :class="flipBack" class="flip-back">
-        <slot name="back"></slot>
-      </div>
-    </div>
-  </div>
-</template>
 
 <style scoped>
 .flip {

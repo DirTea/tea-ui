@@ -17,8 +17,8 @@
   </div>
 </template>
 
-<script setup>
-import { onUpdated, ref, watch } from "vue";
+<script setup lang="ts">
+import { onMounted, ref, watch } from "vue";
 
 const props = defineProps({
   startVal: {
@@ -28,23 +28,16 @@ const props = defineProps({
   endVal: {
     type: Number,
     required: true,
+    default: 0,
   },
   duration: {
     type: Number,
     default: 1000,
   },
 });
+let startValStr = ref("");
 let endValStr = ref("");
 let endValList = ref([]);
-let startValStr = ref("");
-watch(
-  () => props.endVal,
-  (val) => {
-    endValStr.value = val.toString();
-    endValList.value = endValStr.value.split("");
-    console.log(endValStr.value);
-  },
-);
 watch(
   () => props.startVal,
   (val) => {
@@ -52,8 +45,16 @@ watch(
   },
   { immediate: true },
 );
+watch(
+  () => props.endVal,
+  (val) => {
+    endValStr.value = val.toString();
+    endValList.value = endValStr.value.split("");
+  },
+  { immediate: true },
+);
 
-onUpdated(() => {
+onMounted(() => {
   endValList.value.forEach((item, index) => {
     const runKeyFrames = `
       @keyframes test-${index + 1} {
@@ -66,11 +67,10 @@ onUpdated(() => {
       }
     `;
     const style = document.createElement("style");
-    style.type = "text/css";
     style.innerHTML = runKeyFrames;
     const claList = document.getElementsByClassName(
       `count-to-num-${index + 1}`,
-    );
+    ) as HTMLElement;
     for (let cla of claList) {
       cla.style.animation = `test-${index + 1} ${props.duration}ms`;
       cla.style.animationFillMode = "forwards";

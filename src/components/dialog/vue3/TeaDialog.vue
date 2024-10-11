@@ -46,7 +46,7 @@ const props = defineProps({
   },
   // 挂载到哪个元素
   appendTo: {
-    type: [String, HTMLElement],
+    type: [String, Object],
     default: "body",
   },
 });

@@ -47,9 +47,9 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
-const rank = ref<HTMLElement>();
-const rank_title = ref<HTMLElement>();
-const rank_value = ref<HTMLElement>();
+const rank = ref<Object>();
+const rank_title = ref<Object>();
+const rank_value = ref<Object>();
 
 const props = defineProps({
   // 数据列表

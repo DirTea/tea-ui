@@ -70,7 +70,7 @@ onMounted(() => {
     style.innerHTML = runKeyFrames;
     const claList = document.getElementsByClassName(
       `count-to-num-${index + 1}`,
-    ) as HTMLElement;
+    );
     for (let cla of claList) {
       cla.style.animation = `test-${index + 1} ${props.duration}ms`;
       cla.style.animationFillMode = "forwards";

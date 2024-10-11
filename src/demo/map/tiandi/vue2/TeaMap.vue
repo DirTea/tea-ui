@@ -1,23 +1,32 @@
 <template>
-  <div style="position:relative;width: fit-content">
+  <div style="position: relative; width: fit-content">
     <div id="container"></div>
     <div
-        style="position: absolute;right: 50px;bottom: 50px;z-index: 999;padding: 10px 15px;background-color: black;opacity: .8">
-      <div style="display: flex;flex-direction: column;">
-        <el-checkbox v-model="geoJsonLayerShow" label="园区范围"/>
-        <el-checkbox v-model="markerList1Show" label="标记点"/>
+      style="
+        position: absolute;
+        right: 50px;
+        bottom: 50px;
+        z-index: 999;
+        padding: 10px 15px;
+        background-color: black;
+        opacity: 0.8;
+      "
+    >
+      <div style="display: flex; flex-direction: column">
+        <el-checkbox v-model="geoJsonLayerShow" label="园区范围" />
+        <el-checkbox v-model="markerList1Show" label="标记点" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-let T = window.T
+let T = window.T;
 export default {
   data() {
     return {
-      // todo 请在开发前更换天地图tk
-      tk: "8fb666e56330487a8d902fbf6d1a4440",
+      // 请在开发前更换天地图tk
+      tk: "",
       // 地图实例
       map: null,
       // 园区范围图层实例
@@ -27,7 +36,7 @@ export default {
       markerList1: [],
       markerList1Show: true,
       // 新图层记得在这里添加
-    }
+    };
   },
   watch: {
     // 监听园区范围图层显示
@@ -35,55 +44,64 @@ export default {
       handler: function (e) {
         this.$nextTick(() => {
           if (e) {
-            this.setGeoJson('/company.geojson')
+            this.setGeoJson("/company.geojson");
           } else {
-            this.removeOverlay(this.geoJsonLayer)
+            this.removeOverlay(this.geoJsonLayer);
           }
-        })
+        });
       },
-      immediate: true
+      immediate: true,
     },
     // 监听标记点图层显示
     markerList1Show: {
       handler: function (e) {
         this.$nextTick(() => {
           if (e) {
-            this.markerList1 = this.setMarkerLayer([{lng: 120.0195, lat: 30.6783}, {
-              lng: 120.0205,
-              lat: 30.6793
-            }, {lng: 120.0215, lat: 30.6803}], this.cusIcon())
+            this.markerList1 = this.setMarkerLayer(
+              [
+                { lng: 120.0195, lat: 30.6783 },
+                {
+                  lng: 120.0205,
+                  lat: 30.6793,
+                },
+                { lng: 120.0215, lat: 30.6803 },
+              ],
+              this.cusIcon(),
+            );
           } else {
-            this.removeOverlay(this.markerList1)
+            this.removeOverlay(this.markerList1);
           }
-        })
+        });
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   mounted() {
-    this.initMap()
+    this.initMap();
   },
   methods: {
     /**
      * 初始化地图
      */
     initMap() {
-      this.map = null
-      let mapTD = new T.Map('container');
+      this.map = null;
+      let mapTD = new T.Map("container");
       mapTD.centerAndZoom(new T.LngLat(120.019501352, 30.678373914), 15); // 传参中心点经纬度，以及放大程度
       mapTD.setMinZoom(3); // 设置最小变动层级
       mapTD.setMaxZoom(20); // 设置最大变动层级
       mapTD.enableDrag(); // 启用拖拽
       mapTD.enableScrollWheelZoom(); // 启用滚轮放大缩小
       // 卫星图
-      let satelliteLayer = new T.TileLayer("http://t0.tianditu.gov.cn/img_w/wmts?" +
+      let satelliteLayer = new T.TileLayer(
+        "http://t0.tianditu.gov.cn/img_w/wmts?" +
           "SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles" +
           "&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=" +
-          `${this.tk}`
+          `${this.tk}`,
       );
       // 路网
-      let roadNetLayer = new T.TileLayer("http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=" +
-          `${this.tk}`
+      let roadNetLayer = new T.TileLayer(
+        "http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=" +
+          `${this.tk}`,
       );
       mapTD.addLayer(satelliteLayer);
       mapTD.addLayer(roadNetLayer);
@@ -100,9 +118,9 @@ export default {
       if (this.map) {
         let lo = new T.Geolocation();
         let fn = function (e) {
-          that.map.centerAndZoom(e.lnglat, 15)
+          that.map.centerAndZoom(e.lnglat, 15);
           // that.setMarker(e.lnglat.getLng(), e.lnglat.getLat())
-        }
+        };
         lo.getCurrentPosition(fn);
       }
     },
@@ -127,12 +145,12 @@ export default {
      */
     setMarkerLayer(list, icon) {
       if (this.map) {
-        let markerList = []
+        let markerList = [];
         for (let item of list) {
-          let marker = this.setMarker(item.lng, item.lat, icon)
-          markerList.push(marker)
+          let marker = this.setMarker(item.lng, item.lat, icon);
+          markerList.push(marker);
         }
-        return markerList
+        return markerList;
       }
     },
 
@@ -145,10 +163,12 @@ export default {
      */
     setMarker(lng, lat, icon = null) {
       if (this.map) {
-        let marker = icon ? new T.Marker(new T.LngLat(lng, lat), {icon: icon}) : new T.Marker(new T.LngLat(lng, lat));
-        this.setMarkerClick(marker)
+        let marker = icon
+          ? new T.Marker(new T.LngLat(lng, lat), { icon: icon })
+          : new T.Marker(new T.LngLat(lng, lat));
+        this.setMarkerClick(marker);
         this.map.addOverLay(marker);
-        return marker
+        return marker;
       }
     },
 
@@ -159,12 +179,16 @@ export default {
      * @param height icon高度
      * @return {AMap.Icon} icon实例
      */
-    cusIcon(url = "http://api.tianditu.gov.cn/img/map/markerA.png", width = 19, height = 27) {
+    cusIcon(
+      url = "http://api.tianditu.gov.cn/img/map/markerA.png",
+      width = 19,
+      height = 27,
+    ) {
       return new T.Icon({
         iconUrl: url,
         iconSize: new T.Point(width, height),
-        iconAnchor: new T.Point(width / 2, height)
-      })
+        iconAnchor: new T.Point(width / 2, height),
+      });
     },
 
     /**
@@ -194,27 +218,26 @@ export default {
         that.geoJsonLayer = null;
         d3.json(geoJson, function (data) {
           let overlay = new T.D3Overlay(
-              (sel, transform) => {
-                let upd = sel.selectAll('path.geojson').data(data.features);
-                upd.enter()
-                    .append('path')
-                    .attr("class", "geojson")
-                    .attr('stroke', 'white')
-                    .attr('fill', 'red')
-                    .attr('fill-opacity', '0.5')
-              },
-              (sel, transform) => {
-                sel.selectAll('path.geojson').each(
-                    function (d, i) {
-                      d3.select(this).attr('d', transform.pathFromGeojson)
-                    }
-                )
-              }
+            (sel, transform) => {
+              let upd = sel.selectAll("path.geojson").data(data.features);
+              upd
+                .enter()
+                .append("path")
+                .attr("class", "geojson")
+                .attr("stroke", "white")
+                .attr("fill", "red")
+                .attr("fill-opacity", "0.5");
+            },
+            (sel, transform) => {
+              sel.selectAll("path.geojson").each(function (d, i) {
+                d3.select(this).attr("d", transform.pathFromGeojson);
+              });
+            },
           );
           that.map.addOverLay(overlay);
           that.geoJsonLayer = overlay;
           overlay.bringToBack();
-        })
+        });
       }
     },
 
@@ -228,7 +251,7 @@ export default {
           for (let ov of overlay) {
             ov.onRemove(this.map);
           }
-          overlay = []
+          overlay = [];
         } else {
           overlay.onRemove(this.map);
         }
@@ -244,10 +267,8 @@ export default {
         this.map.clearOverLays();
       }
     },
-
-
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

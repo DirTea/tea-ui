@@ -1,11 +1,8 @@
 # 排行榜
 
 ## 基础用法
-
 :::demo
-
 ```vue
-
 <template>
   <tea-rank rank_width="30vw" :list="list"></tea-rank>
 </template>
@@ -14,15 +11,47 @@
 import { ref } from 'vue'
 const list = ref([
   { title: '第一名', value: 100 },
-  { title: '第二名', value: 90 }, 
-  { title: '第三名', value: 70 }, 
-  { title: '第四名', value: 50 }, 
-  { title: '第五名', value: 20 }
+  { title: '第二名', value: 70 }, 
+  { title: '第三名', value: 20 },
 ])
-</script>  
-
+</script>
 ```
+:::
 
+## 在外部的标题和数值
+:::demo
+```vue
+<template>
+  <tea-rank rank_width="30vw" :list="list" type="outer"></tea-rank>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const list = ref([
+  { title: '第一名', value: 100 },
+  { title: '第二名', value: 70 },
+  { title: '第三名', value: 20 },
+])
+</script>
+```
+:::
+
+## 开启加载动画
+:::demo
+```vue
+<template>
+  <tea-rank rank_width="30vw" :list="list" :animation="true"></tea-rank>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+const list = ref([
+  { title: '第一名', value: 100 },
+  { title: '第二名', value: 70 },
+  { title: '第三名', value: 20 },
+])
+</script>
+```
 :::
 
 ## Attributes

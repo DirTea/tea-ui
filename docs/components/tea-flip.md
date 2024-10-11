@@ -6,7 +6,7 @@
 ```vue
 
 <template>
-  <tea-flip height="300px" width="500px">
+  <tea-flip height="300px" width="500px" v-model="value">
     <template #front>
       <div style="background-color: #25599f;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center">
         <div style="color: white;font-size: 50px;">
@@ -23,6 +23,11 @@
     </template>
   </tea-flip>
 </template>
+
+<script setup>
+  import {ref} from 'vue';
+  let value = ref(false);
+</script>
 
 ```
 

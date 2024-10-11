@@ -9,11 +9,10 @@ import TeaDialog from "../../../src/components/dialog/vue3/TeaDialog.vue";
 import TeaFlip from "../../../src/components/flip/vue3/TeaFlip.vue";
 import TeaPreview from "../../../src/components/preview/vue3/TeaPreview.vue";
 import TeaPreviewList from "../../../src/components/preview/vue3/TeaPreviewList.vue";
-import TeaRank from "../../../src/components/rank/TeaRank.vue";
-import TeaRollerItem from "../../../src/components/roller/vue3/TeaRollerItem.vue";
-import TeaRoller from "../../../src/components/roller/vue3/TeaRoller.vue";
+import TeaRank from "../../../src/components/rank/vue3/TeaRank.vue";
 import TeaTagCloud from "../../../src/components/tag-cloud/TeaTagCloud.vue";
-import TeaDoughnutChart from "../../../src/demo/echarts/vue2/TeaDoughnutChart.vue";
+import TeaChartDoughnut from "../../../src/demo/echarts/vue2/TeaChartDoughnut.vue";
+import TeaChartPolar from "../../../src/demo/echarts/vue3/TeaChartPolar.vue";
 import TeaDraggableTable from "../../../src/demo/draggable-table/TeaDraggableTable.vue";
 export default {
   ...DefaultTheme,
@@ -28,10 +27,9 @@ export default {
     ctx.app.component("tea-preview", TeaPreview);
     ctx.app.component("tea-preview-list", TeaPreviewList);
     ctx.app.component("tea-rank", TeaRank);
-    ctx.app.component("tea-roller-item", TeaRollerItem);
-    ctx.app.component("tea-roller", TeaRoller);
     ctx.app.component("tea-tag-cloud", TeaTagCloud);
-    ctx.app.component("tea-doughnut-chart", TeaDoughnutChart);
+    ctx.app.component("tea-chart-doughnut", TeaChartDoughnut);
+    ctx.app.component("tea-chart-polar", TeaChartPolar);
     ctx.app.component("tea-draggable-table", TeaDraggableTable);
   },
 };

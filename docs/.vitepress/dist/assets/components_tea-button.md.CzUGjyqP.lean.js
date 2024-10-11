@@ -1,0 +1,9 @@
+import{_ as r,G as n,o as l,b as p,w as s,a as e,c as k,J as i,m as t}from"./chunks/framework.5uENJKP5.js";const d={};function E(o,h){const a=n("tea-button");return l(),p(a,null,{default:s(()=>[e("默认按钮")]),_:1})}const _=r(d,[["render",E]]),u=t("div",{class:"language-vue vp-adaptive-theme"},[t("span",{class:"lang"},"vue"),t("pre",{class:"shiki shiki-themes github-light github-dark vp-code","v-pre":""},[t("code",null,[t("span",{class:"line"}),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"<"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"  <"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-button"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">默认按钮</"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-button"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),t("span",{class:"line"},[t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"</"),t("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),t("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")])])])],-1),b=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"components/tea-button.md","filePath":"components/tea-button.md"}'),m={name:"components/tea-button.md"},f=Object.assign(m,{setup(o){return(h,a)=>{const c=n("demo");return l(),k("div",null,[i(c,{customClass:"",sourceCode:`
+<template>
+  <tea-button>默认按钮</tea-button>
+</template>
+
+`,options:"{}"},{highlight:s(()=>[u]),default:s(()=>[i(_)]),_:1})])}}});export{b as __pageData,f as default};

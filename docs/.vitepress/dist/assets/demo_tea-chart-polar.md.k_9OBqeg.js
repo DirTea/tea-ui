@@ -1,0 +1,9 @@
+import{_ as c,G as l,o as n,b as p,c as d,J as t,w as i,m as a,a as e}from"./chunks/framework.5uENJKP5.js";const k={};function E(r,h){const s=l("tea-chart-polar");return n(),p(s)}const _=c(k,[["render",E]]),m=a("p",null,"warning：非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用",-1),g=a("div",{class:"language-vue vp-adaptive-theme"},[a("span",{class:"lang"},"vue"),a("pre",{class:"shiki shiki-themes github-light github-dark vp-code","v-pre":""},[a("code",null,[a("span",{class:"line"}),e(`
+`),a("span",{class:"line"},[a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"<"),a("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),a("span",{class:"line"},[a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"  <"),a("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-chart-polar"),a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"></"),a("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"tea-chart-polar"),a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")]),e(`
+`),a("span",{class:"line"},[a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},"</"),a("span",{style:{"--shiki-light":"#22863A","--shiki-dark":"#85E89D"}},"template"),a("span",{style:{"--shiki-light":"#24292E","--shiki-dark":"#E1E4E8"}},">")])])])],-1),y=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"demo/tea-chart-polar.md","filePath":"demo/tea-chart-polar.md"}'),u={name:"demo/tea-chart-polar.md"},v=Object.assign(u,{setup(r){return(h,s)=>{const o=l("demo");return n(),d("div",null,[m,t(o,{customClass:"",sourceCode:`
+<template>
+  <tea-chart-polar></tea-chart-polar>
+</template>
+
+`,options:"{}"},{highlight:i(()=>[g]),default:i(()=>[t(_)]),_:1})])}}});export{y as __pageData,v as default};

@@ -6,10 +6,13 @@ import {
 
 export default defineConfig({
   title: "TEA-UI",
-  titleTemplate: "非常规组件库",
   description: "TeaUI组件库",
   themeConfig: {
     sidebar: [
+      {
+        text: "指南",
+        items: [{ text: "快速开始", link: "/home" }],
+      },
       {
         text: "组件",
         items: [

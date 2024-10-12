@@ -2,9 +2,7 @@
 
 ## 基础用法
 :::demo
-
 ```vue
-
 <template>
   <tea-flip height="300px" width="500px" v-model="value">
     <template #front>
@@ -28,13 +26,10 @@
   import {ref} from 'vue';
   let value = ref(false);
 </script>
-
 ```
-
 :::
 
-## Attributes
-
+## 属性
 | 参数      | 说明     | 类型            | 可选值                    | 是否必填 | 默认值       |
 | --------- | -------- | --------------- | ------------------------- | -------- | ------------ |
 | width     | 宽度     | number / string | -                         | 是       | -            |

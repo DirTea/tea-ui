@@ -1,11 +1,8 @@
 # 弹出框
 
 ## 基础用法
-
 :::demo
-
 ```vue
-
 <template>
   <tea-dialog v-model="dialogVisible">
     <div
@@ -20,11 +17,10 @@
 import {ref} from 'vue';
 let dialogVisible = ref(false);
 </script>
-
 ```
-
 :::
 
+## 属性
 | 参数                    | 说明         | 类型                   | 可选值 | 是否必填 | 默认值                           |
 | --------------------- | ---------- | -------------------- | --- | ---- | ----------------------------- |
 | model-value / v-model | 是否弹出dialog | boolean              | -   | 是    | -                             |

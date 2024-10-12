@@ -1,21 +1,15 @@
 # 计数
 
 ## 基础用法
-
 :::demo
-
 ```vue
-
 <template>
   <tea-count-to :end-val="894158">默认按钮</tea-count-to>
 </template>
-
 ```
-
 :::
 
-## Attributes
-
+## 属性
 | 参数     | 说明     | 类型   | 可选值 | 是否必填 | 默认值 |
 | -------- | -------- | ------ | ------ | -------- | ------ |
 | startVal | 开始值   | number | -      | -        | 0      |

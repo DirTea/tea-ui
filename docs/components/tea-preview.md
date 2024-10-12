@@ -1,7 +1,8 @@
+# 文件预览
 需要安装依赖"element-plus"
 
+## 基础用法
 :::demo
-
 ```vue
 
 <template>
@@ -12,7 +13,5 @@
 ]">
   </tea-preview-list>
 </template>
-
 ```
-
 :::

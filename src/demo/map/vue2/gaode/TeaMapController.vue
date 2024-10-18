@@ -99,12 +99,13 @@ export default {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  z-index: 1;
+  z-index: 999;
 }
 .map-controller-item {
   background-color: black;
   color: white;
   padding: 10px;
+  cursor: pointer;
 }
 .map-controller-item-active {
   background-color: blue;

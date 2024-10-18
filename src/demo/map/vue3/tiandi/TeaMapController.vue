@@ -44,7 +44,7 @@ watch(
   () => props.map,
   () => {
     for (let index in props.list) {
-      props.list[index].onShow().then((res: AMap.Marker[]) => {
+      props.list[index].onShow().then((res: any) => {
         layerMap.value.set(Number(index), res);
       });
     }
@@ -58,23 +58,31 @@ const activeComputed = (index: number) => {
 
 const onSelect = (index: number) => {
   if (activeComputed(index)) {
-    props.map?.remove(activeMap.value.get(index));
+    activeMap.value.get(index).forEach((item: any) => {
+      props.map.removeOverLay(item);
+    });
     activeMap.value.delete(index);
   } else {
     if (!props.isMultiple) {
       activeMap.value.forEach((value, key) => {
-        props.map?.remove(value);
+        value.forEach((item: any) => {
+          props.map.removeOverLay(item);
+        });
         activeMap.value.delete(key);
       });
     }
     if (props.isReload) {
-      props.list[index].onShow().then((res: AMap.Marker[]) => {
-        props.map?.add(res);
+      props.list[index].onShow().then((res: any) => {
+        res.forEach((item: any) => {
+          props.map.addOverLay(item);
+        });
         activeMap.value.set(index, res);
       });
     } else {
       let layer = layerMap.value.get(index);
-      props.map?.add(layer);
+      layer.forEach((item: any) => {
+        props.map.addOverLay(item);
+      });
       activeMap.value.set(index, layer);
     }
   }
@@ -91,12 +99,13 @@ const onSelect = (index: number) => {
   position: absolute;
   bottom: 20px;
   left: 20px;
-  z-index: 1;
+  z-index: 999;
 }
 .map-controller-item {
   background-color: black;
   color: white;
   padding: 10px;
+  cursor: pointer;
 }
 .map-controller-item-active {
   background-color: blue;

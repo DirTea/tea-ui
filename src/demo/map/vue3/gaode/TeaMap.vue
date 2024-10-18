@@ -15,12 +15,12 @@
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
-import { h, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import { TeaDialog } from "../../../../components/dialog/vue3/TeaDialog.ts";
 import TeaMapController from "./TeaMapController.vue";
 
 (window as any)._AMapSecurityConfig = {
-  securityJsCode: "21f22f00721c292e5baff2bb7b02b1c2", // 安全密钥
+  securityJsCode: "", // 安全密钥
 };
 
 let AMap: any;
@@ -29,7 +29,7 @@ let map = ref();
 // 初始化地图
 const initMap = () => {
   AMapLoader.load({
-    key: "28c72476cc459a12a89ecd96282fb616", // 申请好的Web端开发者Key，首次调用 load 时必填
+    key: "", // 申请好的Web端开发者Key，首次调用 load 时必填
     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
     plugins: [
       "AMap.MapType",
@@ -51,7 +51,6 @@ const initMap = () => {
     // 在此处使用后面的set方法
   });
 };
-initMap();
 
 // 添加地图控件
 const setMapController = () => {
@@ -97,7 +96,7 @@ const setMarker = (e: { lng: number; lat: number }) => {
     setInfoWindow(position);
     return marker;
   } else {
-    console.log("AMap未加载或传参错误");
+    console.log("地图未加载或传参错误");
   }
 };
 
@@ -200,6 +199,10 @@ const setSearch = () => {
     }
   }
 };
+
+onMounted(() => {
+  initMap();
+});
 </script>
 
 <style scoped>

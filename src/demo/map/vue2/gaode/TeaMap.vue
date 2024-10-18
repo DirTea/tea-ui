@@ -16,7 +16,7 @@ import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
 import { h } from "vue";
-import { TeaDialog } from "../../../../components/dialog/vue3/TeaDialog.js";
+import { TeaDialog } from "../../../../components/dialog/vue3/TeaDialog.ts";
 import TeaMapController from "./TeaMapController.vue";
 
 window._AMapSecurityConfig = {
@@ -32,9 +32,6 @@ export default {
     return {
       map: undefined,
     };
-  },
-  mounted() {
-    this.initMap();
   },
   methods: {
     // 初始化地图
@@ -104,7 +101,7 @@ export default {
         this.setInfoWindow(position);
         return marker;
       } else {
-        console.log("AMap未加载或传参错误");
+        console.log("地图未加载或传参错误");
       }
     },
     // marker添加信息窗体
@@ -123,6 +120,7 @@ export default {
     setDialog(marker) {
       marker.on("click", () => {
         TeaDialog({
+          props: {},
           content: h("div", {}, "弹出框内容"),
         });
       });
@@ -201,6 +199,9 @@ export default {
         }
       }
     },
+  },
+  mounted() {
+    this.initMap();
   },
 };
 </script>

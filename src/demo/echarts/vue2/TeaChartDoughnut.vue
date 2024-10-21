@@ -3,24 +3,9 @@
 </template>
 
 <script>
-import * as echarts from "echarts/core";
-import { LegendComponent, TooltipComponent } from "echarts/components";
-import { PieChart } from "echarts/charts";
-import { LabelLayout } from "echarts/features";
-import { CanvasRenderer } from "echarts/renderers";
-
-echarts.use([
-  TooltipComponent,
-  LegendComponent,
-  PieChart,
-  CanvasRenderer,
-  LabelLayout,
-]);
+import * as echarts from "echarts";
 
 export default {
-  mounted() {
-    this.init();
-  },
   methods: {
     init() {
       let option = {
@@ -62,25 +47,23 @@ export default {
             },
             // 中间文字
             label: {
-              normal: {
-                show: true,
-                position: "center",
-                color: "#4c4a4a",
-                formatter: "{active|总计}" + "\n" + "{total|100}",
-                rich: {
-                  total: {
-                    fontFamily: "微软雅黑",
-                    fontSize: 30,
-                    fontWeight: "bold",
-                    color: "#454c5c",
-                  },
-                  active: {
-                    fontFamily: "微软雅黑",
-                    fontSize: 16,
-                    fontWeight: "bold",
-                    color: "#6c7a89",
-                    lineHeight: 30,
-                  },
+              show: true,
+              position: "center",
+              color: "#4c4a4a",
+              formatter: "{active|总计}" + "\n" + "{total|100}",
+              rich: {
+                total: {
+                  fontFamily: "微软雅黑",
+                  fontSize: 30,
+                  fontWeight: "bold",
+                  color: "#454c5c",
+                },
+                active: {
+                  fontFamily: "微软雅黑",
+                  fontSize: 16,
+                  fontWeight: "bold",
+                  color: "#6c7a89",
+                  lineHeight: 30,
                 },
               },
             },
@@ -101,6 +84,9 @@ export default {
         myChart.resize();
       });
     },
+  },
+  mounted() {
+    this.init();
   },
 };
 </script>

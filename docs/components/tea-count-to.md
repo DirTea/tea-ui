@@ -4,7 +4,7 @@
 :::demo
 ```vue
 <template>
-  <tea-count-to :end-val="894158">默认按钮</tea-count-to>
+  <tea-count-to :end-val="894158"></tea-count-to>
 </template>
 ```
 :::

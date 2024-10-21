@@ -61,10 +61,10 @@ export default {
       const runKeyFrames = `
       @keyframes test-${index + 1} {
         0% {
-          transform: translate(0%, ${-100 * this.startValStr[index]}%);
+          transform: translate(0%, ${-100 * Number(this.startValStr[index])}%);
         }
         100% {
-          transform: translate(0%, ${-100 * item}%);
+          transform: translate(0%, ${-100 * Number(item)}%);
         }
       }
     `;

@@ -6,10 +6,6 @@
 import * as echarts from "echarts";
 import { onMounted } from "vue";
 
-onMounted(() => {
-  init();
-});
-
 const init = () => {
   let option = {
     tooltip: {},
@@ -65,6 +61,10 @@ const init = () => {
     myChart.resize();
   });
 };
+
+onMounted(() => {
+  init();
+});
 </script>
 
 <style scoped>

@@ -177,9 +177,8 @@ export default {
               "px"
             );
           }
-        } else {
-          return "auto";
         }
+        return "auto";
       };
     },
     // 动画时长
@@ -196,9 +195,8 @@ export default {
           } else {
             return bac;
           }
-        } else {
-          return this.background;
         }
+        return this.background;
       };
     },
   },
@@ -207,21 +205,12 @@ export default {
     startSort() {
       this.afterList = JSON.parse(JSON.stringify(this.list));
       if (this.is_sort) {
-        for (let i = 0; i < this.afterList.length - 1; i++) {
-          for (let j = 0; j < this.afterList.length - 1 - i; j++) {
-            if (
-              this.asc
-                ? this.afterList[j][this.filed_value] >
-                  this.afterList[j + 1][this.filed_value]
-                : this.afterList[j][this.filed_value] <
-                  this.afterList[j + 1][this.filed_value]
-            ) {
-              let temp = this.afterList[j];
-              this.afterList[j] = this.afterList[j + 1];
-              this.afterList[j + 1] = temp;
-            }
-          }
-        }
+        const that = this;
+        this.afterList = this.afterList.sort(function (a, b) {
+          return that.asc
+            ? a[that.filed_value] - b[that.filed_value]
+            : b[that.filed_value] - a[that.filed_value];
+        });
       }
       if (this.top !== 0) {
         this.afterList = this.afterList.slice(0, this.top);
@@ -229,7 +218,7 @@ export default {
     },
     getMax(list, prop) {
       return Math.max.apply(
-        Math,
+        null,
         list.map((item) => {
           return item[prop];
         }),

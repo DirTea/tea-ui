@@ -47,10 +47,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 
-const rank = ref<Object>();
-const rank_title = ref<Object>();
-const rank_value = ref<Object>();
-
 const props = defineProps({
   // 数据列表
   list: {
@@ -141,63 +137,17 @@ const props = defineProps({
 });
 
 let isMounted = ref(false);
-onMounted(() => {
-  isMounted.value = true;
-});
 
+const rank = ref(null as HTMLDivElement | null);
+const rank_title = ref(null as HTMLDivElement[] | null);
+const rank_value = ref(null as HTMLDivElement[] | null);
 // 列表数据预处理
 let afterList = ref([]);
-// 排序
-const startSort = () => {
-  afterList.value = JSON.parse(JSON.stringify(props.list));
-  if (props.is_sort) {
-    for (let i = 0; i < afterList.value.length - 1; i++) {
-      for (let j = 0; j < afterList.value.length - 1 - i; j++) {
-        if (
-          props.asc
-            ? afterList.value[j][props.filed_value] >
-              afterList.value[j + 1][props.filed_value]
-            : afterList.value[j][props.filed_value] <
-              afterList.value[j + 1][props.filed_value]
-        ) {
-          let temp = afterList.value[j];
-          afterList.value[j] = afterList.value[j + 1];
-          afterList.value[j + 1] = temp;
-        }
-      }
-    }
-  }
-  if (props.top !== 0) {
-    afterList.value = afterList.value?.slice(0, props.top);
-  }
-};
-watch(
-  () => props.list,
-  () => {
-    startSort();
-  },
-  { immediate: true },
-);
-
 let titleWidth = ref("auto");
 let titleWidthNum = ref(0);
-watch(
-  () => rank_title.value,
-  () => {
-    if (props.title_width === "auto") {
-      titleWidthNum.value = getMax(rank_title.value, "offsetWidth");
-      titleWidth.value = titleWidthNum.value + "px";
-    } else {
-      titleWidth.value = props.title_width;
-      nextTick(() => {
-        titleWidthNum.value = rank_title.value?.[0].offsetWidth;
-      });
-    }
-  },
-);
 
 // 宽度计算
-const widthComputed = computed(() => (index) => {
+const widthComputed = computed(() => (index: number) => {
   // 先计算最大值
   let maxValue = props.max_value;
   if (props.auto_computed) {
@@ -211,53 +161,90 @@ const widthComputed = computed(() => (index) => {
   if (isMounted.value) {
     // 获取所有宽度
     let rankWidth = rank.value?.offsetWidth;
-    let valueWidth = getMax(rank_value.value, "offsetWidth");
+    let valueWidth = getMax(rank_value.value!, "offsetWidth");
     if (props.type === "inner") {
       return (
         titleWidthNum.value +
         valueWidth +
         (afterList.value[index][props.filed_value] / maxValue) *
-          (rankWidth - titleWidthNum.value - valueWidth) +
+          (rankWidth! - titleWidthNum.value - valueWidth) +
         "px"
       );
     } else if (props.type === "outer") {
       return (
         (afterList.value[index][props.filed_value] / maxValue) *
-          (rankWidth - titleWidthNum.value - valueWidth) +
+          (rankWidth! - titleWidthNum.value - valueWidth) +
         "px"
       );
     }
-  } else {
-    return "auto";
   }
+  return "auto";
 });
-
-const getMax = (list, prop) => {
-  return Math.max.apply(
-    Math,
-    list.map((item) => {
-      return item[prop];
-    }),
-  );
-};
-
 // 动画时长
 const animationDurationComputed = computed(() => {
   return props.animation ? `${props.animation_duration / 1000}s` : "0s";
 });
-
 // 背景色
-const backgroundComputed = computed(() => (index) => {
+const backgroundComputed = computed(() => (index: number) => {
   if (Array.isArray(props.background)) {
     let bac = props.background[index % props.background.length];
     if (Array.isArray(bac)) {
       return `linear-gradient(to right, ${bac[0]}, ${bac[1]})`;
     } else {
-      return bac;
+      return bac as string;
     }
-  } else {
-    return props.background;
   }
+  return props.background;
+});
+
+// 排序
+const startSort = () => {
+  afterList.value = JSON.parse(JSON.stringify(props.list));
+  if (props.is_sort) {
+    afterList.value = afterList.value.sort(function (a: any, b: any) {
+      return props.asc
+        ? a[props.filed_value] - b[props.filed_value]
+        : b[props.filed_value] - a[props.filed_value];
+    });
+  }
+  if (props.top !== 0) {
+    afterList.value = afterList.value?.slice(0, props.top);
+  }
+};
+
+const getMax = (list: any, prop: string) => {
+  return Math.max.apply(
+    null,
+    list.map((item: any) => {
+      return item[prop];
+    }),
+  );
+};
+
+watch(
+  () => props.list,
+  () => {
+    startSort();
+  },
+  { immediate: true },
+);
+watch(
+  () => rank_title.value,
+  () => {
+    if (props.title_width === "auto") {
+      titleWidthNum.value = getMax(rank_title.value, "offsetWidth");
+      titleWidth.value = titleWidthNum.value + "px";
+    } else {
+      titleWidth.value = props.title_width;
+      nextTick(() => {
+        titleWidthNum.value = rank_title.value?.[0].offsetWidth!;
+      });
+    }
+  },
+);
+
+onMounted(() => {
+  isMounted.value = true;
 });
 </script>
 

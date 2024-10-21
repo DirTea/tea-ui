@@ -37,7 +37,7 @@ const props = defineProps({
 });
 let startValStr = ref("");
 let endValStr = ref("");
-let endValList = ref([]);
+let endValList = ref<string[]>([]);
 watch(
   () => props.startVal,
   (val) => {
@@ -59,10 +59,10 @@ onMounted(() => {
     const runKeyFrames = `
       @keyframes test-${index + 1} {
         0% {
-          transform: translate(0%, ${-100 * startValStr.value[index]}%);
+          transform: translate(0%, ${-100 * Number(startValStr.value[index])}%);
         }
         100% {
-          transform: translate(0%, ${-100 * item}%);
+          transform: translate(0%, ${-100 * Number(item)}%);
         }
       }
     `;
@@ -70,7 +70,7 @@ onMounted(() => {
     style.innerHTML = runKeyFrames;
     const claList = document.getElementsByClassName(
       `count-to-num-${index + 1}`,
-    );
+    ) as HTMLCollectionOf<HTMLDivElement>;
     for (let cla of claList) {
       cla.style.animation = `test-${index + 1} ${props.duration}ms`;
       cla.style.animationFillMode = "forwards";

@@ -25,7 +25,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { ElTable, ElTableColumn } from "element-plus";
 import { VueDraggable } from "vue-draggable-plus";
@@ -58,7 +58,7 @@ const tableData = ref([
   },
 ]);
 // 列
-const columns = [
+const columns = ref([
   {
     label: "ID",
     prop: "id",
@@ -75,7 +75,7 @@ const columns = [
     label: "Category",
     prop: "category",
   },
-];
+]);
 
 const onChange = () => {
   console.log(tableData.value);

@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { TeaDialog } from "../../../../components/dialog/vue2/TeaDialog.js";
+import { TeaDialog } from "@/components/dialog/vue2/TeaDialog.js";
 import { h } from "vue";
 import TeaMapController from "./TeaMapController.vue";
 

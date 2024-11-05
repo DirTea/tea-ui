@@ -31,6 +31,7 @@ export default defineConfig({
           { text: "echarts环状图", link: "/demo/tea-chart-doughnut" },
           { text: "echarts极坐标图", link: "/demo/tea-chart-polar" },
           { text: "element-plus可拖拽表格", link: "/demo/tea-draggable-table" },
+          { text: "d3词云", link: "/demo/tea-word-cloud" },
         ],
       },
     ],

@@ -11,7 +11,7 @@ import TeaPreview from "../../../src/components/preview/vue3/TeaPreview.vue";
 import TeaPreviewList from "../../../src/components/preview/vue3/TeaPreviewList.vue";
 import TeaRank from "../../../src/components/rank/vue3/TeaRank.vue";
 import TeaTagCloud from "../../../src/components/tag-cloud/TeaTagCloud.vue";
-import TeaChartDoughnut from "../../../src/demo/echarts/vue2/TeaChartDoughnut.vue";
+import TeaChartDoughnut from "../../../src/demo/echarts/vue3/TeaChartDoughnut.vue";
 import TeaChartPolar from "../../../src/demo/echarts/vue3/TeaChartPolar.vue";
 import TeaDraggableTable from "../../../src/demo/draggable-table/vue3/TeaDraggableTable.vue";
 export default {

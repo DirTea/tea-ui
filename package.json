@@ -20,12 +20,13 @@
     "echarts": "^5.4.3",
     "element-plus": "^2.3.4",
     "lodash": "^4.17.21",
-    "vitepress": "^1.0.1",
+    "vitepress": "^1.4.5",
     "vue": "^3.4.21",
     "vue-draggable-plus": "^0.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
+    "postcss": "^8.4.47",
     "prettier": "3.2.5",
     "typescript": "^5.0.2",
     "vite": "^5.1.4",

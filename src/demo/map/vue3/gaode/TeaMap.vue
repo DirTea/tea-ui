@@ -130,7 +130,7 @@ const setGeoJson = () => {
     axios.get("/chongqing.json").then((res) => {
       let geojson = new AMap.GeoJSON({
         geoJSON: res.data,
-        getPolygon: (lnglats: AMap.LngLatLike) => {
+        getPolygon: (geojson: Object, lnglats: AMap.LngLatLike) => {
           let polygon = new AMap.Polygon({
             path: lnglats,
             strokeColor: "white", // 边框颜色

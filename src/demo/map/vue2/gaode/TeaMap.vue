@@ -132,7 +132,7 @@ export default {
         axios.get("/chongqing.json").then((res) => {
           let geojson = new AMap.GeoJSON({
             geoJSON: res.data,
-            getPolygon: (lnglats) => {
+            getPolygon: (geojson, lnglats) => {
               let polygon = new AMap.Polygon({
                 path: lnglats,
                 strokeColor: "white", // 边框颜色

@@ -1,0 +1,1 @@
+import{_ as a,c as e,a as t}from"./chunks/framework.BxsraC7H.js";const _=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"demo/tea-map-tiandi.md","filePath":"demo/tea-map-tiandi.md"}'),n={name:"demo/tea-map-tiandi.md"};function o(i,r,d,s,c,m){return t(),e("div")}const f=a(n,[["render",o]]);export{_ as __pageData,f as default};

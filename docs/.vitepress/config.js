@@ -14,7 +14,7 @@ export default defineConfig({
         items: [{ text: "快速开始", link: "/home" }],
       },
       {
-        text: "组件",
+        text: "组件(Components)",
         items: [
           { text: "按钮", link: "/components/tea-button" },
           { text: "计数", link: "/components/tea-count-to" },
@@ -26,11 +26,12 @@ export default defineConfig({
         ],
       },
       {
-        text: "非组件",
+        text: "非组件(Demo)",
         items: [
           { text: "echarts环状图", link: "/demo/tea-chart-doughnut" },
           { text: "echarts极坐标图", link: "/demo/tea-chart-polar" },
           { text: "element-plus可拖拽表格", link: "/demo/tea-draggable-table" },
+          { text: "高德地图", link: "/demo/tea-map-gaode" },
           { text: "d3词云", link: "/demo/tea-word-cloud" },
         ],
       },

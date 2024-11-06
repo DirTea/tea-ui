@@ -1,6 +1,10 @@
 # echarts环状图
 
-warning：非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用
+<div style="margin: 10px 0">
+  <el-tag type="danger">提示</el-tag> 非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用
+</div>
+
+## 示例
 
 <TeaChartDoughnut></TeaChartDoughnut>
 

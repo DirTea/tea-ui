@@ -1,5 +1,5 @@
 <template>
-  <div class="map-controller">
+  <div class="map-controller" v-if="map">
     <div v-for="(item, index) in list" :key="index">
       <div
         class="map-controller-item"

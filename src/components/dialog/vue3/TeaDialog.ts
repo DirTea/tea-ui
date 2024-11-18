@@ -22,7 +22,8 @@ export const TeaDialog = (options: optionsType) => {
     {
       modelValue: true,
       "onUpdate:modelValue": updateShow,
-      ...options.props,
+      appendTo: div,
+      ...options?.props,
     },
     () => options.content,
   );

@@ -16,11 +16,11 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@amap/amap-jsapi-types": "^0.0.15",
     "@vueuse/core": "^10.9.0",
-    "axios": "^1.6.7",
+    "axios": "^1.7.4",
     "echarts": "^5.4.3",
     "element-plus": "^2.3.4",
     "lodash": "^4.17.21",
-    "vitepress": "^1.4.5",
+    "vitepress": "^1.5.0",
     "vue": "^3.4.21",
     "vue-draggable-plus": "^0.4.0"
   },

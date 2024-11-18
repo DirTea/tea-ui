@@ -1,26 +1,21 @@
 <template>
   <teleport :to="appendTo">
-    <Transition name="fade">
+    <div
+      class="dialog-outside"
+      :style="{
+        'background-color': modal ? 'rgba(0,0,0,0.6)' : 'transparent',
+      }"
+      v-if="modelValue"
+    >
       <div
-        class="dialog-outside"
+        class="dialog-inside"
         :style="{
-          'background-color': modal ? 'rgba(0,0,0,0.6)' : 'transparent',
+          'background-image': background ? `url('${background}')` : 'none',
         }"
-        v-show="modelValue"
       >
-        <Transition name="slide">
-          <div
-            v-if="modelValue"
-            class="dialog-inside"
-            :style="{
-              'background-image': background ? `url('${background}')` : 'none',
-            }"
-          >
-            <slot></slot>
-          </div>
-        </Transition>
+        <slot></slot>
       </div>
-    </Transition>
+    </div>
   </teleport>
 </template>
 
@@ -50,25 +45,37 @@ export default {
       type: [String, Object],
       default: "body",
     },
+    // 是否将body滚动锁定
+    lockScroll: {
+      type: Boolean,
+      default: true,
+    },
   },
   watch: {
     modelValue: {
       handler: function (value) {
+        const bodyStyle = document.body.style;
         if (value) {
-          document.body.style.overflow = "hidden";
+          if (this.lockScroll) {
+            bodyStyle.overflow = "hidden";
+          }
+        } else {
+          bodyStyle.overflow = "";
         }
       },
+      immediate: true,
     },
   },
   mounted() {
     document.addEventListener("click", (e) => {
       const target = e.target;
       if (target.classList.contains("dialog-outside")) {
-        const body = document.body;
-        body.style.overflow = "auto";
         this.$emit("update:modelValue", false);
       }
     });
+  },
+  unmounted() {
+    document.body.style.overflow = "";
   },
 };
 </script>
@@ -83,28 +90,28 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9999;
+  animation: fadeAnimation 0.4s;
+}
+@keyframes fadeAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .dialog-inside {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   margin: auto;
+  animation: slideAnimation 0.2s;
 }
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.2s;
-}
-.slide-enter-from,
-.slide-leave-to {
-  transform: translateY(-50px);
+@keyframes slideAnimation {
+  0% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 </style>

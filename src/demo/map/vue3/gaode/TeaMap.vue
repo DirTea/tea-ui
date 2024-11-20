@@ -4,8 +4,14 @@
     <TeaMapController
       :map="map"
       :list="[
-        { title: '图层示例1', onShow: onShow1 },
-        { title: '图层示例2', onShow: onShow2 },
+        { id: '图层示例1', title: '图层示例1', onShow: onShow1 },
+        {
+          id: '图层示例2',
+          title: '图层示例2',
+          children: [
+            { id: '图层示例2-1', title: '图层示例2-1', onShow: onShow2 },
+          ],
+        },
       ]"
     ></TeaMapController>
   </div>
@@ -68,6 +74,7 @@ const onShow1 = () => {
       lng: 120.631155,
       lat: 28.736966,
     });
+    setDialog(marker);
     layer.push(marker);
     resolve(layer);
   });
@@ -80,21 +87,62 @@ const onShow2 = () => {
       lng: 121.631155,
       lat: 29.736966,
     });
+    setDialog(marker);
     layer.push(marker);
     resolve(layer);
   });
 };
 
-// 创建单个标记点
-const setMarker = (e: { lng: number; lat: number }) => {
+// 创建一个标记点
+const setMarker = (
+  e: { lng: number; lat: number },
+  params?: AMap.MarkerOptions,
+) => {
   if (AMap && e) {
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
-    const marker = new AMap.Marker({
+    return new AMap.Marker({
       position: position,
+      ...params,
     });
-    setDialog(marker);
-    setInfoWindow(position);
-    return marker;
+  } else {
+    console.log("地图未加载或传参错误");
+  }
+};
+
+// 创建一条折线
+const setLine = (
+  e: { lng: number; lat: number },
+  params?: AMap.PolylineOptions,
+) => {
+  if (AMap && e) {
+    let path: Array<AMap.LngLat> | Array<Array<AMap.LngLat>> = [];
+    if (Array.isArray(e)) {
+      e.forEach((item) => {
+        // 线段经纬度
+        path.push(new AMap.LngLat(item.lng, item.lat));
+      });
+      return new AMap.Polyline({
+        path: path,
+        ...params,
+      });
+    }
+  } else {
+    console.log("地图未加载或传参错误");
+  }
+};
+
+// 创建一个文本标记点
+const setText = (
+  e: { lng: number; lat: number },
+  params?: AMap.TextOptions,
+) => {
+  if (AMap && e) {
+    const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
+    return new AMap.Text({
+      position: position,
+      anchor: "center",
+      ...params,
+    });
   } else {
     console.log("地图未加载或传参错误");
   }
@@ -117,7 +165,6 @@ const setInfoWindow = (position: AMap.LngLat) => {
 const setDialog = (marker: AMap.Marker) => {
   marker.on("click", () => {
     TeaDialog({
-      props: {},
       content: h("div", {}, "弹出框内容"),
     });
   });

@@ -2,7 +2,7 @@ import TeaDialogInstance from "./TeaDialog.vue";
 import { h, ref, render } from "vue";
 
 interface optionsType {
-  props: any;
+  props?: any;
   content: any;
 }
 

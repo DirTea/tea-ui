@@ -15,6 +15,7 @@
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@amap/amap-jsapi-types": "^0.0.15",
+    "amap-weather-icons": "^0.0.6",
     "@vueuse/core": "^10.9.0",
     "axios": "^1.7.4",
     "echarts": "^5.4.3",

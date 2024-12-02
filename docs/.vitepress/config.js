@@ -7,7 +7,9 @@ import {
 export default defineConfig({
   title: "TEA-UI",
   description: "TeaUI组件库",
+  head: [["link", { rel: "icon", href: "/icon.svg" }]],
   themeConfig: {
+    logo: "/icon.svg",
     sidebar: [
       {
         text: "指南",
@@ -23,6 +25,7 @@ export default defineConfig({
           { text: "文件预览", link: "/components/tea-preview" },
           { text: "排行榜", link: "/components/tea-rank" },
           { text: "标签云", link: "/components/tea-tag-cloud" },
+          { text: "天气", link: "/components/tea-weather" },
         ],
       },
       {

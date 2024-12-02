@@ -15,7 +15,7 @@
 
 ## 示例
 
-将申请好的安全密钥和key输入以开始预览demo效果
+在高德地图申请Web端(JS API)的key，将申请好的安全密钥和key输入以开始预览demo效果
 
 <div class="vp-raw">
   <div style="margin-bottom: 10px">

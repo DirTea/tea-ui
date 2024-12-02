@@ -22,7 +22,7 @@
     "element-plus": "^2.3.4",
     "lodash": "^4.17.21",
     "vitepress": "^1.5.0",
-    "vue": "^3.4.21",
+    "vue": "^3.5.12",
     "vue-draggable-plus": "^0.4.0"
   },
   "devDependencies": {

@@ -25,7 +25,7 @@ export default defineConfig({
           { text: "文件预览", link: "/components/tea-preview" },
           { text: "排行榜", link: "/components/tea-rank" },
           { text: "标签云", link: "/components/tea-tag-cloud" },
-          { text: "天气", link: "/components/tea-weather" },
+          { text: "高德天气", link: "/components/tea-weather" },
         ],
       },
       {

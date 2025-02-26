@@ -1,8 +1,8 @@
 import TeaDialogInstance from "./TeaDialog.vue";
 import { h, render } from "vue";
 
-let dialogRef = null;
 export const TeaDialog = (options) => {
+  let dialogRef = null;
   const updateShow = (show) => {
     if (!show) {
       render(null, dialogRef);

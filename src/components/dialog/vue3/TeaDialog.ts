@@ -6,8 +6,8 @@ interface optionsType {
   content: any;
 }
 
-const dialogRef = ref();
 export const TeaDialog = (options: optionsType) => {
+  const dialogRef = ref();
   const updateShow = (show: boolean) => {
     if (!show) {
       render(null, dialogRef.value);

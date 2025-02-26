@@ -422,7 +422,7 @@ const activeComputed = (id: string | number) => {
 };
 
 watch(
-  () => props.map,
+  () => props.list,
   () => {
     for (let index in props.list) {
       // 有二级菜单
@@ -451,6 +451,7 @@ watch(
       }
     }
   },
+  { immediate: true },
 );
 
 const onSelect = async (val: boolean, id: string) => {

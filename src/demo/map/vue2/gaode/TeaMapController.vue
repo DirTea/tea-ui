@@ -105,7 +105,8 @@ export default {
     },
   },
   watch: {
-    map: {
+    list: {
+      immediate: true,
       handler: function () {
         for (let index in this.list) {
           // 有二级菜单
@@ -207,9 +208,10 @@ export default {
   gap: 10px;
   position: absolute;
   bottom: 20px;
-  right: 20px;
+  right: 500px;
   z-index: 1;
 }
+
 .map-controller-item {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -220,13 +222,16 @@ export default {
   gap: 10px;
   user-select: none;
 }
+
 .map-controller-item-active {
-  background-color: #25599f;
+  background-color: #409eff;
 }
+
 .map-controller-icon {
   height: 15px;
   width: 15px;
 }
+
 .map-controller-item-next {
   display: flex;
   flex-direction: column;

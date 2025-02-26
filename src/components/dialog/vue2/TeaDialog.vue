@@ -1,6 +1,7 @@
 <template>
   <teleport :to="appendTo">
     <div
+      :data-key="dataKey"
       class="dialog-outside"
       :style="{
         'background-color': modal ? 'rgba(0,0,0,0.6)' : 'transparent',
@@ -51,6 +52,11 @@ export default {
       default: true,
     },
   },
+  data() {
+    return {
+      dataKey: crypto.randomUUID(),
+    };
+  },
   watch: {
     modelValue: {
       handler: function (value) {
@@ -69,8 +75,10 @@ export default {
   mounted() {
     document.addEventListener("click", (e) => {
       const target = e.target;
-      if (target.classList.contains("dialog-outside")) {
-        this.$emit("update:modelValue", false);
+      if (target.dataset.key === this.dataKey) {
+        if (target.classList.contains("dialog-outside")) {
+          this.$emit("update:modelValue", false);
+        }
       }
     });
   },

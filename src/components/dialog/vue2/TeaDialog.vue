@@ -15,6 +15,10 @@
         }"
       >
         <slot></slot>
+        <div v-if="!$slots.close" class="dialog-close" @click="onClose">x</div>
+        <div style="position: inherit; cursor: pointer" @click="onClose">
+          <slot name="close"></slot>
+        </div>
       </div>
     </div>
   </teleport>
@@ -54,7 +58,7 @@ export default {
   },
   data() {
     return {
-      dataKey: crypto.randomUUID(),
+      dataKey: Math.random().toString(36).substring(2),
     };
   },
   watch: {
@@ -85,13 +89,18 @@ export default {
   unmounted() {
     document.body.style.overflow = "";
   },
+  methods: {
+    onClose() {
+      this.$emit("update:modelValue", false);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .dialog-outside {
   display: flex;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
@@ -113,6 +122,7 @@ export default {
   background-repeat: no-repeat;
   margin: auto;
   animation: slideAnimation 0.2s;
+  position: relative;
 }
 @keyframes slideAnimation {
   0% {
@@ -121,5 +131,16 @@ export default {
   100% {
     transform: translateY(0px);
   }
+}
+
+.dialog-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #000000;
+  cursor: pointer;
 }
 </style>

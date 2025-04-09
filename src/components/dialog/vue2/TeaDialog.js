@@ -6,12 +6,22 @@ export const TeaDialog = (options) => {
   const updateShow = (show) => {
     if (!show) {
       render(null, dialogRef);
-      document.body.removeChild(dialogRef);
+      if (options?.props?.appendTo) {
+        document
+          .querySelector(options?.props.appendTo)
+          .removeChild(dialogRef.value);
+      } else {
+        document.body.removeChild(dialogRef.value);
+      }
       dialogRef = null;
     }
   };
   const div = document.createElement("div");
-  document.body.appendChild(div);
+  if (options?.props?.appendTo) {
+    document.querySelector(options?.props.appendTo).appendChild(div);
+  } else {
+    document.body.appendChild(div);
+  }
   const vnode = h(
     TeaDialogInstance,
     {

@@ -70,4 +70,9 @@ const onShow = () => {
 | append-to             | 挂载到哪个元素     | string / HTMLElement | -   | -    | 'body' |
 | lock-scroll           | 是否将body滚动锁定 | boolean              | -   | -    | true   |
 
+## 插槽
 
+| 插槽名     | 说明                                  |
+| ------- | ----------------------------------- |
+| default | 自定义默认内容                             |
+| close   | 自定义关闭按钮 |

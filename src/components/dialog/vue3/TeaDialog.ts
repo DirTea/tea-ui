@@ -11,12 +11,22 @@ export const TeaDialog = (options: optionsType) => {
   const updateShow = (show: boolean) => {
     if (!show) {
       render(null, dialogRef.value);
-      document.body.removeChild(dialogRef.value);
+      if (options?.props?.appendTo) {
+        document
+          .querySelector(options?.props.appendTo)
+          .removeChild(dialogRef.value);
+      } else {
+        document.body.removeChild(dialogRef.value);
+      }
       dialogRef.value = null;
     }
   };
   const div = document.createElement("div");
-  document.body.appendChild(div);
+  if (options?.props?.appendTo) {
+    document.querySelector(options?.props.appendTo).appendChild(div);
+  } else {
+    document.body.appendChild(div);
+  }
   const vnode = h(
     TeaDialogInstance,
     {

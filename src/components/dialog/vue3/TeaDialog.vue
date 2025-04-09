@@ -15,13 +15,17 @@
         }"
       >
         <slot></slot>
+        <div v-if="!slotClose" class="dialog-close" @click="onClose">x</div>
+        <div style="position: inherit; cursor: pointer" @click="onClose">
+          <slot name="close"></slot>
+        </div>
       </div>
     </div>
   </teleport>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, watch } from "vue";
+import { computed, onMounted, onUnmounted, useSlots, watch } from "vue";
 
 // v-model绑定是否弹出
 const modelValue = defineModel({ type: Boolean, required: true });
@@ -48,7 +52,11 @@ const props = defineProps({
   },
 });
 
-const dataKey = crypto.randomUUID();
+const dataKey = Math.random().toString(36).substring(2);
+
+const slotClose = computed(() => {
+  return !!useSlots().close;
+});
 
 watch(
   () => modelValue.value,
@@ -81,12 +89,16 @@ onMounted(() => {
 onUnmounted(() => {
   document.body.style.overflow = "";
 });
+
+const onClose = () => {
+  emit("update:modelValue", false);
+};
 </script>
 
 <style scoped>
 .dialog-outside {
   display: flex;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
@@ -108,6 +120,7 @@ onUnmounted(() => {
   background-repeat: no-repeat;
   margin: auto;
   animation: slideAnimation 0.2s;
+  position: relative;
 }
 @keyframes slideAnimation {
   0% {
@@ -116,5 +129,16 @@ onUnmounted(() => {
   100% {
     transform: translateY(0px);
   }
+}
+
+.dialog-close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #000000;
+  cursor: pointer;
 }
 </style>

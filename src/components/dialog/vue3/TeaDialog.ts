@@ -37,6 +37,9 @@ export const TeaDialog = (options: optionsType) => {
     },
     () => options.content,
   );
+  if (window.appContext) {
+    vnode.appContext = window.appContext;
+  }
   render(vnode, div);
   dialogRef.value = div;
 };

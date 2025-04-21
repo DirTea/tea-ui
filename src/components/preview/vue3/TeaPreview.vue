@@ -7,7 +7,7 @@
     :style="{ width: width, height: height }"
     hide-on-click-modal
     lazy
-    preview-teleported
+    :preview-teleported="previewTeleported"
   />
   <div v-else class="preview-file" @click="previewFile">
     <span>{{ suffix }}</span>
@@ -40,6 +40,10 @@ const props = defineProps({
     type: String,
     values: ["", "contain", "cover", "fill", "none", "scale-down"],
     default: "contain",
+  },
+  previewTeleported: {
+    type: Boolean,
+    default: false,
   },
 });
 

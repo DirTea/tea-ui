@@ -1,5 +1,5 @@
 <template>
-  <div class="preview-list">
+  <div class="preview-list" v-if="src">
     <tea-preview
       v-for="(item, index) in srcList"
       :key="index"
@@ -41,13 +41,19 @@ export default {
       values: ["", "contain", "cover", "fill", "none", "scale-down"],
       default: "contain",
     },
+    previewTeleported: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     srcList() {
-      if (Array.isArray(this.src)) {
-        return this.src;
-      } else {
-        return this.src.split(",");
+      if (this.src) {
+        if (Array.isArray(this.src)) {
+          return this.src;
+        } else {
+          return this.src.split(",");
+        }
       }
     },
   },

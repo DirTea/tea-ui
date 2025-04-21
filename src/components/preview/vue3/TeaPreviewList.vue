@@ -1,5 +1,5 @@
 <template>
-  <div class="preview-list">
+  <div class="preview-list" v-if="src">
     <tea-preview
       v-for="(item, index) in srcList"
       :key="index"
@@ -38,13 +38,19 @@ const props = defineProps({
     values: ["", "contain", "cover", "fill", "none", "scale-down"],
     default: "contain",
   },
+  previewTeleported: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const srcList = computed(() => {
-  if (Array.isArray(props.src)) {
-    return props.src;
-  } else {
-    return props.src!.split(",");
+  if (props.src) {
+    if (Array.isArray(props.src)) {
+      return props.src;
+    } else {
+      return props.src.split(",");
+    }
   }
 });
 </script>

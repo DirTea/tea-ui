@@ -2,11 +2,17 @@
   <!--  <input id="input" placeholder="请输入地址搜索" />-->
   <div id="container">
     <TeaMapController
-      :list="[
-        { title: '图层示例1', onShow: onShow1 },
-        { title: '图层示例2', onShow: onShow2 },
-      ]"
       :map="map"
+      :list="[
+        { id: '图层示例1', title: '图层示例1', onShow: onShow1 },
+        {
+          id: '图层示例2',
+          title: '图层示例2',
+          children: [
+            { id: '图层示例2-1', title: '图层示例2-1', onShow: onShow2 },
+          ],
+        },
+      ]"
     ></TeaMapController>
   </div>
 </template>
@@ -148,10 +154,10 @@ export default {
         lo.getCurrentPosition(fn);
       }
     },
-    // poi搜索地点 todo 搜索报错
+    // poi搜索地点 todo 需要配合下拉框
     setSearch() {
       const input = document.getElementById("input");
-      function search() {
+      const search = () => {
         // 创建搜索对象
         let localSearch = new T.LocalSearch(this.map, {
           pageCapacity: 10, //每页显示的数量
@@ -160,7 +166,7 @@ export default {
           },
         });
         localSearch.search(input.value);
-      }
+      };
       function debounce(fn, wait) {
         let timer = null;
         return function () {

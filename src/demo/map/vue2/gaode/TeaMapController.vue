@@ -1,6 +1,6 @@
 <template>
   <div class="map-controller" v-if="map && layerMap">
-    <div v-for="(item, index) in list" :key="index">
+    <div v-for="(item, index) in listWithId" :key="index">
       <el-popover
         popper-class="!bg-black/[.5] !shadow-none"
         placement="left"
@@ -63,7 +63,6 @@ export default {
     /**
      * [
      *  {
-     *    id: string, // 必填唯一标识
      *    icon: string, // 图标
      *    title: string, // 图层名
      *    isShow: boolean, // 是否默认选中
@@ -95,12 +94,13 @@ export default {
   data() {
     return {
       layerMap: new Map(),
+      listWithId: [],
     };
   },
   computed: {
     activeComputed() {
       return (id) => {
-        return this.layerMap.get(id)?.show;
+        return this.layerMap.get(id).show;
       };
     },
   },
@@ -108,30 +108,43 @@ export default {
     list: {
       immediate: true,
       handler: function () {
-        for (let index in this.list) {
+        const processItem = (item) => {
+          const result = {
+            id: Symbol(),
+            ...item,
+            children: undefined, // 先初始化为undefined
+          };
+          if (item.children) {
+            result.children = item.children.map((child) => processItem(child));
+          }
+          return result;
+        };
+        this.listWithId = this.list.map((item) => processItem(item));
+        for (let index in this.listWithId) {
           // 有二级菜单
-          if (this.list[index].children) {
-            this.layerMap.set(this.list[index].id, {
-              options: this.list[index],
+          if (this.listWithId[index].children) {
+            this.layerMap.set(this.listWithId[index].id, {
+              options: this.listWithId[index],
               checkOut: false,
             });
-            this.list[index].children.forEach((item) => {
+            this.listWithId[index].children.forEach((item) => {
               this.layerMap.set(item.id, {
                 options: item,
                 layer: null,
                 show: false,
                 isChild: true,
-                father: this.list[index].id,
+                father: this.listWithId[index].id,
               });
               item.isShow && this.onSelect(true, item.id);
             });
           } else {
-            this.layerMap.set(this.list[index].id, {
-              options: this.list[index],
+            this.layerMap.set(this.listWithId[index].id, {
+              options: this.listWithId[index],
               layer: null,
               show: false,
             });
-            this.list[index].isShow && this.onSelect(true, this.list[index].id);
+            this.listWithId[index].isShow &&
+              this.onSelect(true, this.listWithId[index].id);
           }
         }
       },
@@ -139,55 +152,48 @@ export default {
   },
   methods: {
     async onSelect(val, id) {
+      const addLayer = (layer) => {
+        this.map.add(layer);
+      };
+      const removeLayer = (layer) => {
+        this.map.remove(layer);
+      };
       let obj = this.layerMap.get(id);
       if (!obj || obj.options.children) return;
-      // 是否展示
+      // 关闭图层
       if (!val) {
         obj.show = false;
         if (obj.isChild) {
           const fa = this.layerMap.get(obj.father);
-          fa.checkOut = false;
+          if (fa) fa.checkOut = false;
         }
-        if (obj.layer) {
-          this.map.remove(obj.layer);
+        obj.layer && removeLayer(obj.layer);
+        return;
+      }
+
+      // 打开图层
+      obj.show = true;
+      // 是否需要重新加载数据
+      let reloadFlag = !obj.layer || this.isReload;
+      if (reloadFlag) {
+        const loadingInstance = ElLoading.service();
+        if (obj.layer && this.isReload) {
+          removeLayer(obj.layer);
         }
+        obj.layer = await obj.options.onShow();
+        addLayer(obj.layer);
+        loadingInstance.close();
       } else {
-        // 此次加载不会触发isReload的加载
-        let reloadFlag = false;
-        // 判断需不需要加载数据
-        if (!obj.layer) {
-          reloadFlag = true;
-          const loadingInstance = ElLoading.service();
-          if (obj.options.onShow) {
-            obj.layer = await obj.options.onShow();
+        addLayer(obj.layer);
+      }
+      // 单选模式
+      if (this.isSingle) {
+        this.layerMapforEach((value, key) => {
+          if (key !== id && value.show && value.layer) {
+            value.show = false;
+            removeLayer(value.layer);
           }
-          loadingInstance.close();
-        }
-        // isReload需要重新加载数据
-        if (!reloadFlag && this.isReload) {
-          const loadingInstance = ElLoading.service();
-          obj.show = true;
-          if (obj.options.onShow) {
-            const res = await obj.options.onShow();
-            obj.layer = res;
-            this.map.add(res);
-          }
-          loadingInstance.close();
-        } else {
-          obj.show = true;
-          this.map.add(obj.layer);
-        }
-        // 单选模式
-        if (this.isSingle) {
-          this.layerMap.forEach((value, key) => {
-            if (key !== id) {
-              value.show = false;
-              if (value.layer) {
-                this.map.remove(value.layer);
-              }
-            }
-          });
-        }
+        });
       }
     },
     onSelectAll(val, children) {
@@ -208,10 +214,9 @@ export default {
   gap: 10px;
   position: absolute;
   bottom: 20px;
-  right: 500px;
+  right: 20px;
   z-index: 1;
 }
-
 .map-controller-item {
   background-color: rgba(0, 0, 0, 0.5);
   color: white;
@@ -222,16 +227,13 @@ export default {
   gap: 10px;
   user-select: none;
 }
-
 .map-controller-item-active {
-  background-color: #409eff;
+  background-color: #25599f;
 }
-
 .map-controller-icon {
   height: 15px;
   width: 15px;
 }
-
 .map-controller-item-next {
   display: flex;
   flex-direction: column;

@@ -4,13 +4,10 @@
     <TeaMapController
       :map="map"
       :list="[
-        { id: '图层示例1', title: '图层示例1', onShow: onShow1 },
+        { title: '图层示例1', onShow: onShow1 },
         {
-          id: '图层示例2',
           title: '图层示例2',
-          children: [
-            { id: '图层示例2-1', title: '图层示例2-1', onShow: onShow2 },
-          ],
+          children: [{ title: '图层示例2-1', onShow: onShow2 }],
         },
       ]"
     ></TeaMapController>
@@ -30,7 +27,7 @@ import TeaMapController from "./TeaMapController.vue";
 };
 
 let AMap: any;
-let map = ref();
+let map = ref<AMap.Map | null>(null);
 
 // 初始化地图
 const initMap = () => {

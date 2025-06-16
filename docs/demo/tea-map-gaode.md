@@ -36,13 +36,10 @@ tea-map
     <TeaMapController
       :map="map"
       :list="[
-        { id: '图层示例1', title: '图层示例1', onShow: onShow1 },
+        { title: '图层示例1', onShow: onShow1 },
         {
-          id: '图层示例2',
           title: '图层示例2',
-          children: [
-            { id: '图层示例2-1', title: '图层示例2-1', onShow: onShow2 },
-          ],
+          children: [{ title: '图层示例2-1', onShow: onShow2 }],
         },
       ]"
     ></TeaMapController>
@@ -62,7 +59,7 @@ import TeaMapController from "./TeaMapController.vue";
 };
 
 let AMap: any;
-let map = ref();
+let map = ref<AMap.Map | null>(null);
 
 // 初始化地图
 const initMap = () => {
@@ -125,7 +122,7 @@ const onShow2 = () => {
   });
 };
 
-// 创建单个标记点
+// 创建一个标记点
 const setMarker = (
   e: { lng: number; lat: number },
   params?: AMap.MarkerOptions,
@@ -312,7 +309,7 @@ tea-map-controller
 ```vue
 <template>
   <div class="map-controller" v-if="map && layerMap">
-    <div v-for="(item, index) in list" :key="index">
+    <div v-for="(item, index) in listWithId" :key="index">
       <el-popover
         popper-class="!bg-black/[.5] !shadow-none"
         placement="left"
@@ -368,9 +365,9 @@ tea-map-controller
 import { ref, watch } from "vue";
 import { ElLoading } from "element-plus";
 import type { PropType } from "@vue/runtime-core";
+import "@amap/amap-jsapi-types";
 
 interface listItemType {
-  id: string;
   icon?: string;
   title: string;
   isShow?: boolean;
@@ -378,14 +375,19 @@ interface listItemType {
   children?: Array<listItemType>;
 }
 
+interface listItemWithIdType extends listItemType {
+  id: symbol;
+  children?: Array<listItemWithIdType>;
+}
+
 const props = defineProps({
   map: {
+    type: [Object, null] as PropType<AMap.Map | null>,
     required: true,
   },
   /**
    * [
    *  {
-   *    id: string, // 必填唯一标识
    *    icon: string, // 图标
    *    title: string, // 图层名
    *    isShow: boolean, // 是否默认选中
@@ -416,100 +418,107 @@ const props = defineProps({
 });
 
 const layerMap = ref(new Map());
+const listWithId = ref<listItemWithIdType[]>([]);
 
-const activeComputed = (id: string | number) => {
-  return layerMap.value.get(id.toString())?.show;
+const activeComputed = (id: symbol) => {
+  return layerMap.value.get(id)?.show;
 };
 
 watch(
   () => props.list,
   () => {
-    for (let index in props.list) {
+    const processItem = (item: listItemType): listItemWithIdType => {
+      const result: listItemWithIdType = {
+        id: Symbol(),
+        ...item,
+        children: undefined, // 先初始化为undefined
+      };
+      if (item.children) {
+        result.children = item.children.map((child) => processItem(child));
+      }
+      return result;
+    };
+    listWithId.value = props.list.map((item) => processItem(item));
+    for (let index in listWithId.value) {
       // 有二级菜单
-      if (props.list[index].children) {
-        layerMap.value.set(props.list[index].id.toString(), {
-          options: props.list[index],
+      if (listWithId.value[index].children) {
+        layerMap.value.set(listWithId.value[index].id, {
+          options: listWithId.value[index],
           checkOut: false,
         });
-        props.list[index].children!.forEach((item) => {
-          layerMap.value.set(item.id.toString(), {
-            options: item,
-            layer: null,
-            show: false,
-            isChild: true,
-            father: props.list[index].id.toString(),
-          });
-          item.isShow && onSelect(true, item.id);
-        });
+        listWithId.value[index].children!.forEach(
+          (item: listItemWithIdType) => {
+            layerMap.value.set(item.id, {
+              options: item,
+              layer: null,
+              show: false,
+              isChild: true,
+              father: listWithId.value[index].id,
+            });
+            item.isShow && onSelect(true, item.id);
+          },
+        );
       } else {
-        layerMap.value.set(props.list[index].id.toString(), {
-          options: props.list[index],
+        layerMap.value.set(listWithId.value[index].id, {
+          options: listWithId.value[index],
           layer: null,
           show: false,
         });
-        props.list[index].isShow && onSelect(true, props.list[index].id);
+        listWithId.value[index].isShow &&
+          onSelect(true, listWithId.value[index].id);
       }
     }
   },
-  { immediate: true },
 );
 
-const onSelect = async (val: boolean, id: string) => {
-  id = id.toString();
+const onSelect = async (val: boolean, id: symbol) => {
+  const addLayer = (layer: AMap.LayerGroup) => {
+    props.map?.add(layer);
+  };
+  const removeLayer = (layer: AMap.LayerGroup) => {
+    props.map?.remove(layer);
+  };
   let obj = layerMap.value.get(id);
   if (!obj || obj.options.children) return;
-  // 是否展示
+  // 关闭图层
   if (!val) {
     obj.show = false;
     if (obj.isChild) {
       const fa = layerMap.value.get(obj.father);
-      fa.checkOut = false;
+      if (fa) fa.checkOut = false;
     }
-    if (obj.layer) {
-      props.map.remove(obj.layer);
+    obj.layer && removeLayer(obj.layer);
+    return;
+  }
+
+  // 打开图层
+  obj.show = true;
+  // 是否需要重新加载数据
+  let reloadFlag = !obj.layer || props.isReload;
+  if (reloadFlag) {
+    const loadingInstance = ElLoading.service();
+    if (obj.layer && props.isReload) {
+      removeLayer(obj.layer);
     }
+    obj.layer = await obj.options.onShow();
+    addLayer(obj.layer);
+    loadingInstance.close();
   } else {
-    // 此次加载不会触发isReload的加载
-    let reloadFlag = false;
-    // 判断需不需要加载数据
-    if (!obj.layer) {
-      reloadFlag = true;
-      const loadingInstance = ElLoading.service();
-      if (obj.options.onShow) {
-        obj.layer = await obj.options.onShow();
+    addLayer(obj.layer);
+  }
+  // 单选模式
+  if (props.isSingle) {
+    layerMap.value.forEach((value, key) => {
+      if (key !== id && value.show && value.layer) {
+        value.show = false;
+        removeLayer(value.layer);
       }
-      loadingInstance.close();
-    }
-    // isReload需要重新加载数据
-    if (!reloadFlag && props.isReload) {
-      const loadingInstance = ElLoading.service();
-      obj.show = true;
-      if (obj.options.onShow) {
-        const res = await obj.options.onShow();
-        obj.layer = res;
-        props.map.add(res);
-      }
-      loadingInstance.close();
-    } else {
-      obj.show = true;
-      props.map.add(obj.layer);
-    }
-    // 单选模式
-    if (props.isSingle) {
-      layerMap.value.forEach((value, key) => {
-        if (key !== id) {
-          value.show = false;
-          if (value.layer) {
-            props.map.remove(value.layer);
-          }
-        }
-      });
-    }
+    });
   }
 };
 
-const onSelectAll = (val: boolean, children: Array<listItemType>) => {
-  children.forEach((item: listItemType) => {
+const onSelectAll = (val: boolean, children: Array<listItemWithIdType>) => {
+  children.forEach((item: listItemWithIdType) => {
     onSelect(val, item.id);
   });
 };

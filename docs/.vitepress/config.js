@@ -35,6 +35,7 @@ export default defineConfig({
           { text: "echarts极坐标图", link: "/demo/tea-chart-polar" },
           { text: "element-plus可拖拽表格", link: "/demo/tea-draggable-table" },
           { text: "高德地图", link: "/demo/tea-map-gaode" },
+          { text: "天地图", link: "/demo/tea-map-tiandi" },
           { text: "d3词云", link: "/demo/tea-word-cloud" },
         ],
       },

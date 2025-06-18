@@ -1,46 +1,72 @@
 <template>
-  <!--  <input id="input" placeholder="请输入地址搜索" />-->
-  <div id="container">
-    <TeaMapController
-      :map="map"
-      :list="[
-        { title: '图层示例1', onShow: onShow1 },
-        {
-          title: '图层示例2',
-          children: [{ title: '图层示例2-1', onShow: onShow2 }],
-        },
-      ]"
-    ></TeaMapController>
+  <div class="vp-raw">
+    <div style="margin-bottom: 10px">
+      <el-input
+        v-model="input"
+        style="width: 240px"
+        placeholder="请输入天地图key"
+      />
+      <el-button type="primary" @click="initMap">开始预览</el-button>
+    </div>
+    <input id="input" placeholder="请输入地址搜索" v-show="map" />
+    <div id="container" v-show="map">
+      <TeaMapController
+        :map="map"
+        :list="[
+          { title: '图层示例1', onShow: onShow1 },
+          {
+            title: '图层示例2',
+            children: [{ title: '图层示例2-1', onShow: onShow2 }],
+          },
+        ]"
+      ></TeaMapController>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { TeaDialog } from "@/components/dialog/vue3/TeaDialog.ts";
-import { h, onMounted, ref } from "vue";
-import TeaMapController from "./TeaMapController.vue";
+import { h, ref } from "vue";
+import { TeaDialog } from "../../src/components/dialog/vue3/TeaDialog.ts";
+import TeaMapController from "../../src/demo/map/vue3/tiandi/TeaMapController.vue";
 
 let T = (window as any).T;
 let map = ref(null);
 
+const input = ref("");
+
+// 动态加载外部链接
+const loadJS = (url: string) => {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = url;
+    script.onload = () => resolve(script);
+    script.onerror = () => reject(new Error(`Script load error for ${url}`));
+    document.body.appendChild(script);
+  });
+};
+
 // 初始化地图
 const initMap = () => {
-  // 请在开发前更换天地图tk
-  const tk = "";
-  let mapTD = new T.Map("container");
-  mapTD.centerAndZoom(new T.LngLat(121.631155, 29.736966), 5); // 传参中心点经纬度，以及放大程度
-  // 卫星图
-  let satelliteLayer = new T.TileLayer(
-    `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles` +
-      `&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tk}`,
-  );
-  // 路网
-  let roadNetLayer = new T.TileLayer(
-    `http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=${tk}`,
-  );
-  mapTD.addLayer(satelliteLayer);
-  mapTD.addLayer(roadNetLayer);
-  map.value = mapTD;
-  // 在此处使用后面的set方法
+  const tk = input.value;
+  loadJS(`http://api.tianditu.gov.cn/api?v=4.0&tk=${tk}`).then((res) => {
+    T = window.T;
+    // 请在开发前更换天地图tk
+    let mapTD = new T.Map("container");
+    mapTD.centerAndZoom(new T.LngLat(121.631155, 29.736966), 5); // 传参中心点经纬度，以及放大程度
+    // 卫星图
+    let satelliteLayer = new T.TileLayer(
+      `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles` +
+        `&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&tk=${tk}`,
+    );
+    // 路网
+    let roadNetLayer = new T.TileLayer(
+      `http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=${tk}`,
+    );
+    mapTD.addLayer(satelliteLayer);
+    mapTD.addLayer(roadNetLayer);
+    map.value = mapTD;
+    // 在此处使用后面的set方法
+  });
 };
 
 // 添加地图控件
@@ -105,8 +131,17 @@ const setInfoWindow = (position: any) => {
 const setDialog = (marker: any) => {
   marker.addEventListener("click", () => {
     TeaDialog({
-      props: {},
-      content: h("div", {}, "弹出框内容"),
+      props: {
+        appendTo: "#container",
+      },
+      content: h(
+        "div",
+        {
+          style:
+            "width: 200px;height: 200px;background: white;display: flex;justify-content: center;align-items: center;",
+        },
+        "弹出框内容",
+      ),
     });
   });
 };
@@ -175,10 +210,6 @@ const setSearch = () => {
   }
   input.addEventListener("input", debounce(search, 1000));
 };
-
-onMounted(() => {
-  initMap();
-});
 </script>
 
 <style scoped>

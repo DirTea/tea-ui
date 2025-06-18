@@ -188,7 +188,7 @@ export default {
       }
       // 单选模式
       if (this.isSingle) {
-        this.layerMapforEach((value, key) => {
+        this.layerMap.forEach((value, key) => {
           if (key !== id && value.show && value.layer) {
             value.show = false;
             removeLayer(value.layer);

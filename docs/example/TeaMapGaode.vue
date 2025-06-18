@@ -18,13 +18,10 @@
       <TeaMapController
         :map="map"
         :list="[
-          { id: '图层示例1', title: '图层示例1', onShow: onShow1 },
+          { title: '图层示例1', onShow: onShow1 },
           {
-            id: '图层示例2',
             title: '图层示例2',
-            children: [
-              { id: '图层示例2-1', title: '图层示例2-1', onShow: onShow2 },
-            ],
+            children: [{ title: '图层示例2-1', onShow: onShow2 }],
           },
         ]"
       ></TeaMapController>
@@ -85,7 +82,6 @@ const initMap = () => {
     setSearch();
   });
 };
-initMap();
 
 // 添加地图控件
 const setMapController = () => {
@@ -194,11 +190,14 @@ const setInfoWindow = (position: AMap.LngLat) => {
 const setDialog = (marker: AMap.Marker) => {
   marker.on("click", () => {
     TeaDialog({
+      props: {
+        appendTo: "#container",
+      },
       content: h(
         "div",
         {
           style:
-            "width: 500px;height: 500px;background: white;display: flex;justify-content: center;align-items: center;",
+            "width: 200px;height: 200px;background: white;display: flex;justify-content: center;align-items: center;",
         },
         "弹出框内容",
       ),

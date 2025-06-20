@@ -12,6 +12,8 @@
 import TeaChartDoughnut from "../../src/demo/echarts/vue3/TeaChartDoughnut.vue"
 </script>
 
+## 源代码
+
 ```vue
 <template>
   <div id="myChart"></div>

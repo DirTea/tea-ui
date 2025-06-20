@@ -4,6 +4,8 @@
   <el-tag type="danger">提示</el-tag> 非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用
 </div>
 
+## 源代码
+
 ```vue
 <template>
   <div id="container"></div>

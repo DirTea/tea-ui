@@ -12,6 +12,8 @@
 import TeaChartPolar from "../../src/demo/echarts/vue3/TeaChartPolar.vue"
 </script>
 
+## 源代码
+
 ```vue
 <template>
   <div id="myChart"></div>

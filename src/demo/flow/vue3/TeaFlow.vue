@@ -22,13 +22,15 @@
         </div>
       </div>
       <div class="flow-settings" v-if="nodeEditing || edgeEditing">
-        <div style="display: flex; align-items: center" v-if="nodeEditing">
-          <div style="flex-shrink: 0">文本：</div>
-          <el-input v-model="nodeEditing.data.label"></el-input>
+        <div style="padding: 10px">
+          <div style="display: flex; align-items: center" v-if="nodeEditing">
+            <div style="flex-shrink: 0">文本：</div>
+            <el-input v-model="nodeEditing.data.label"></el-input>
+          </div>
+          <el-button style="margin-top: 10px" type="danger" @click="onDelete">
+            删除
+          </el-button>
         </div>
-        <el-button style="margin-top: 10px" type="danger" @click="onDelete">
-          删除
-        </el-button>
       </div>
     </div>
     <VueFlow
@@ -203,7 +205,8 @@ const onDelete = () => {
 
 .flow-settings {
   background: #fff;
-  padding: 10px;
+  overflow: hidden;
+  width: 300px;
 }
 
 .flow-container {

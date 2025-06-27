@@ -1,5 +1,12 @@
 <template>
   <div class="node">
+    <NodeResizer
+      color="red"
+      :handleStyle="{ width: '8px', height: '8px' }"
+      :is-visible="selected"
+      :min-width="40"
+      :min-height="40"
+    />
     <Handle
       id="source-left"
       type="source"
@@ -49,25 +56,30 @@
       :position="Position.Bottom"
       style="background: #25599f"
     />
-    <div>
-      <span style="padding: 0 2px">{{ data.label }}</span>
-    </div>
+    <span>{{ data.label }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { Handle, Position } from "@vue-flow/core";
+import { NodeResizer } from "@vue-flow/node-resizer";
+import "@vue-flow/node-resizer/dist/style.css";
+
 const props = defineProps({
   data: {
     type: Object,
     default: () => ({}),
   },
+  selected: Boolean,
 });
 </script>
 
 <style scoped>
 .node {
-  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
   font-size: 14px;
   color: #25599f;
   background: transparent;

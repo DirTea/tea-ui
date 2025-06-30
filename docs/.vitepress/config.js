@@ -40,6 +40,10 @@ export default defineConfig({
           { text: "d3词云", link: "/demo/tea-word-cloud" },
         ],
       },
+      {
+        text: "指令(Directives)",
+        items: [{ text: "简单过渡动画", link: "/directives/tea-transition" }],
+      },
     ],
   },
   markdown: {

@@ -22,8 +22,8 @@ import TeaFlow from "../../src/demo/flow/vue3/TeaFlow.vue";
     <div class="flow-panel">
       <div class="flow-options">
         <div style="font-weight: 700">节点</div>
-        <div class="flow-options-item" @click="onAddNode('border')">矩形</div>
-        <div class="flow-options-item" @click="onAddNode('text')">文本</div>
+        <div class="flow-options-item" @click="onNodeAdd('border')">矩形</div>
+        <div class="flow-options-item" @click="onNodeAdd('text')">文本</div>
         <div style="font-weight: 700">连线</div>
         <div
           class="flow-options-item"
@@ -41,28 +41,33 @@ import TeaFlow from "../../src/demo/flow/vue3/TeaFlow.vue";
         </div>
       </div>
       <div class="flow-settings" v-if="nodeEditing || edgeEditing">
-        <div style="display: flex; align-items: center" v-if="nodeEditing">
-          <div style="flex-shrink: 0">文本：</div>
-          <el-input v-model="nodeEditing.data.label"></el-input>
+        <div style="padding: 10px">
+          <div style="display: flex; align-items: center" v-if="nodeEditing">
+            <div style="flex-shrink: 0">文本：</div>
+            <el-input
+              ref="nodeEditingRef"
+              v-model="nodeEditing.data.label"
+            ></el-input>
+          </div>
+          <el-button style="margin-top: 10px" type="danger" @click="onDelete">
+            删除
+          </el-button>
         </div>
-        <el-button style="margin-top: 10px" type="danger" @click="onDelete">
-          删除
-        </el-button>
       </div>
     </div>
     <VueFlow
-      ref="vueFlowRef"
+      id="vueFlowId"
       class="flow-container"
       v-model:nodes="nodes"
       v-model:edges="edges"
       :node-types="nodeTypes"
       :edge-types="edgeTypes"
       @pane-click="onPaneClick"
-      @connect="onConnect"
+      @connect="onEdgeAdd"
       @node-click="onNodeClick"
       @edge-click="onEdgeClick"
     >
-      <Background />
+      <Background variant="lines" />
     </VueFlow>
   </div>
 </template>
@@ -84,15 +89,21 @@ import BorderNode from "./nodes/BorderNode.vue";
 import TextNode from "./nodes/TextNode.vue";
 import SolidEdge from "./edges/SolidEdge.vue";
 import DashedEdge from "./edges/DashedEdge.vue";
+import { useScreenshot } from "./useScreenshot";
 
 const {
+  vueFlowRef,
   addNodes,
   addEdges,
   removeNodes,
   removeEdges,
+  getSelectedNodes,
+  removeSelectedNodes,
   screenToFlowCoordinate,
   dimensions,
-} = useVueFlow();
+  fitView,
+} = useVueFlow("vueFlowId");
+const { capture } = useScreenshot();
 
 const nodeTypes: Record<string, NodeComponent> = {
   border: markRaw(BorderNode) as NodeComponent,
@@ -103,19 +114,21 @@ const edgeTypes: Record<string, EdgeComponent> = {
   dashed: markRaw(DashedEdge) as EdgeComponent,
 };
 
-const vueFlowRef = ref<HTMLElement | null>(null);
 const nodes = ref<Node[]>([]);
 const edges = ref<Edge[]>([]);
 
 const connectType = ref<string>("solid");
+const nodeEditingRef = ref();
 const nodeEditing = ref<Node>();
 const edgeEditing = ref<Edge>();
 
+// 点击面板
 const onPaneClick = () => {
   clearClick();
 };
 
-const onAddNode = (type: string) => {
+// 添加节点
+const onNodeAdd = (type: string) => {
   nextTick(() => {
     if (vueFlowRef.value) {
       const position = screenToFlowCoordinate({
@@ -133,7 +146,8 @@ const onAddNode = (type: string) => {
   });
 };
 
-const onConnect = (connectionEvent: Connection) => {
+// 添加边
+const onEdgeAdd = (connectionEvent: Connection) => {
   nextTick(() => {
     addEdges({
       type: connectType.value,
@@ -145,21 +159,27 @@ const onConnect = (connectionEvent: Connection) => {
   });
 };
 
+// 清除点击
 const clearClick = () => {
   nodeEditing.value = undefined;
   edgeEditing.value = undefined;
 };
 
-const onNodeClick = (nodeMouseEvent: NodeMouseEvent) => {
+// 点击节点
+const onNodeClick = async (nodeMouseEvent: NodeMouseEvent) => {
   clearClick();
   nodeEditing.value = nodeMouseEvent.node;
+  await nextTick();
+  nodeEditingRef.value.focus();
 };
 
+// 点击边
 const onEdgeClick = (edgeMouseEvent: EdgeMouseEvent) => {
   clearClick();
   edgeEditing.value = edgeMouseEvent.edge;
 };
 
+// 删除元素
 const onDelete = () => {
   if (nodeEditing.value) {
     removeNodes(nodeEditing.value.id, true, false);
@@ -169,6 +189,18 @@ const onDelete = () => {
     removeEdges(edgeEditing.value.id);
     clearClick();
   }
+};
+
+// 导出图片
+const onExportImg = () => {
+  if (!vueFlowRef.value) {
+    console.warn("VueFlow element not found");
+    return;
+  }
+  clearClick();
+  removeSelectedNodes(getSelectedNodes.value);
+  fitView();
+  capture(vueFlowRef.value, { shouldDownload: true });
 };
 </script>
 
@@ -222,7 +254,8 @@ const onDelete = () => {
 
 .flow-settings {
   background: #fff;
-  padding: 10px;
+  overflow: hidden;
+  width: 300px;
 }
 
 .flow-container {

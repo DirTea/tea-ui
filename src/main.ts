@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import "./style.css";
 
-import { TeaTransition } from "@/directive/transition/TeaTransition.ts";
+import { vTransition } from "@/directives/transition/TeaTransition.ts";
 
 import ElementPlus from "element-plus";
 import "element-plus/dist/index.css";
@@ -9,7 +9,7 @@ import "element-plus/dist/index.css";
 import App from "./App.vue";
 
 const app = createApp(App);
-TeaTransition(app);
+app.directive("transition", vTransition);
 app.use(ElementPlus);
 app.mount("#app");
 

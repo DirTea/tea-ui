@@ -33,8 +33,8 @@
 import "@amap/amap-jsapi-types";
 import axios from "axios";
 import { h, onMounted, ref } from "vue";
-import { TeaDialog } from "../../src/components/dialog/vue3/TeaDialog.ts";
-import TeaMapController from "../../src/demo/map/vue3/gaode/TeaMapController.vue";
+import { TeaDialog } from "../../src/components/dialog/TeaDialog.js";
+import TeaMapController from "../../src/demo/map/gaode/TeaMapController.vue";
 
 let AMapLoader: any;
 onMounted(() => {

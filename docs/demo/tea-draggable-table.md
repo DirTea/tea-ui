@@ -9,7 +9,7 @@
 <TeaDraggableTable class="vp-raw"></TeaDraggableTable>
 
 <script setup lang="ts">
-import TeaDraggableTable from "../../src/demo/draggable-table/vue3/TeaDraggableTable.vue"
+import TeaDraggableTable from "../../src/demo/draggable-table/TeaDraggableTable.vue"
 </script>
 
 ## 源代码

@@ -19,7 +19,7 @@ import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
 import { h, onMounted, ref } from "vue";
-import { TeaDialog } from "@/components/dialog/vue3/TeaDialog.ts";
+import { TeaDialog } from "@/components/dialog/TeaDialog.ts";
 import TeaMapController from "./TeaMapController.vue";
 
 (window as any)._AMapSecurityConfig = {

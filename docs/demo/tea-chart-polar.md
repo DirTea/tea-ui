@@ -9,7 +9,7 @@
 <TeaChartPolar></TeaChartPolar>
 
 <script setup lang="ts">
-import TeaChartPolar from "../../src/demo/echarts/vue3/TeaChartPolar.vue"
+import TeaChartPolar from "../../src/demo/echarts/TeaChartPolar.vue"
 </script>
 
 ## 源代码

@@ -35,7 +35,8 @@ let dialogVisible = ref(false);
 
 <script setup>
 import { h } from "vue";
-import { TeaDialog } from "../../src/components/dialog/vue3/TeaDialog.ts";
+import { TeaDialog } from "../../src/components/dialog/TeaDialog.ts";
+
 const onShow = () => {
   TeaDialog({
     content: h(
@@ -62,17 +63,17 @@ const onShow = () => {
 
 ## 属性
 
-| 参数                    | 说明          | 类型                   | 可选值 | 是否必填 | 默认值    |
-| --------------------- | ----------- | -------------------- | --- | ---- | ------ |
-| model-value / v-model | 是否弹出dialog  | boolean              | -   | 是    | -      |
-| modal                 | 是否开启遮罩层     | boolean              | -   | -    | true   |
-| background            | 使用背景图片      | string               | -   | -    | -      |
-| append-to             | 挂载到哪个元素     | string / HTMLElement | -   | -    | 'body' |
-| lock-scroll           | 是否将body滚动锁定 | boolean              | -   | -    | true   |
+| 参数                  | 说明               | 类型                 | 可选值 | 是否必填 | 默认值 |
+| --------------------- | ------------------ | -------------------- | ------ | -------- | ------ |
+| model-value / v-model | 是否弹出dialog     | boolean              | -      | 是       | -      |
+| modal                 | 是否开启遮罩层     | boolean              | -      | -        | true   |
+| background            | 使用背景图片       | string               | -      | -        | -      |
+| append-to             | 挂载到哪个元素     | string / HTMLElement | -      | -        | 'body' |
+| lock-scroll           | 是否将body滚动锁定 | boolean              | -      | -        | true   |
 
 ## 插槽
 
-| 插槽名     | 说明                                  |
-| ------- | ----------------------------------- |
-| default | 自定义默认内容                             |
+| 插槽名  | 说明           |
+| ------- | -------------- |
+| default | 自定义默认内容 |
 | close   | 自定义关闭按钮 |

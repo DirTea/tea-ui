@@ -3,17 +3,17 @@ import "element-plus/dist/index.css";
 import ElementPlus from "element-plus";
 import "vitepress-theme-demoblock/dist/theme/styles/index.css";
 import { useComponents } from "./useComponents";
-import TeaButton from "../../../src/components/button/vue3/TeaButton.vue";
-import TeaCountTo from "../../../src/components/count-to/vue3/TeaCountTo.vue";
-import TeaDialog from "../../../src/components/dialog/vue3/TeaDialog.vue";
-import TeaFlip from "../../../src/components/flip/vue3/TeaFlip.vue";
-import TeaPreview from "../../../src/components/preview/vue3/TeaPreview.vue";
-import TeaPreviewList from "../../../src/components/preview/vue3/TeaPreviewList.vue";
-import TeaRank from "../../../src/components/rank/vue3/TeaRank.vue";
+import TeaButton from "../../../src/components/button/TeaButton.vue";
+import TeaCountTo from "../../../src/components/count-to/TeaCountTo.vue";
+import TeaDialog from "../../../src/components/dialog/TeaDialog.vue";
+import TeaFlip from "../../../src/components/flip/TeaFlip.vue";
+import TeaPreview from "../../../src/components/preview/TeaPreview.vue";
+import TeaPreviewList from "../../../src/components/preview/TeaPreviewList.vue";
+import TeaRank from "../../../src/components/rank/TeaRank.vue";
 import TeaTagCloud from "../../../src/components/tag-cloud/TeaTagCloud.vue";
-import TeaChartDoughnut from "../../../src/demo/echarts/vue3/TeaChartDoughnut.vue";
-import TeaChartPolar from "../../../src/demo/echarts/vue3/TeaChartPolar.vue";
-import TeaDraggableTable from "../../../src/demo/draggable-table/vue3/TeaDraggableTable.vue";
+import TeaChartDoughnut from "../../../src/demo/echarts/TeaChartDoughnut.vue";
+import TeaChartPolar from "../../../src/demo/echarts/TeaChartPolar.vue";
+import TeaDraggableTable from "../../../src/demo/draggable-table/TeaDraggableTable.vue";
 export default {
   ...DefaultTheme,
   enhanceApp(ctx) {

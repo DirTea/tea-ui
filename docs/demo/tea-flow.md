@@ -4,14 +4,6 @@
   <el-tag type="danger">提示</el-tag> 非组件，请安装相应依赖后，直接复制粘贴代码并调整修改部分代码使用
 </div>
 
-## 示例
-
-<TeaFlow></TeaFlow>
-
-<script setup lang="ts">
-import TeaFlow from "../../src/demo/flow/vue3/TeaFlow.vue";
-</script>
-
 ## 源代码
 
 仅TeaFlow，完整代码请下载项目查看

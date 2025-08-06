@@ -9,7 +9,7 @@
 <TeaChartDoughnut></TeaChartDoughnut>
 
 <script setup lang="ts">
-import TeaChartDoughnut from "../../src/demo/echarts/vue3/TeaChartDoughnut.vue"
+import TeaChartDoughnut from "../../src/demo/echarts/TeaChartDoughnut.vue"
 </script>
 
 ## 源代码

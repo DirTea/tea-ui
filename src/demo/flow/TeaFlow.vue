@@ -70,7 +70,7 @@ import BorderNode from "./nodes/BorderNode.vue";
 import TextNode from "./nodes/TextNode.vue";
 import SolidEdge from "./edges/SolidEdge.vue";
 import DashedEdge from "./edges/DashedEdge.vue";
-import { useScreenshot } from "./useScreenshot";
+import { useScreenshot } from "./useScreenshot.ts";
 
 const {
   vueFlowRef,
@@ -186,9 +186,6 @@ const onExportImg = () => {
 </script>
 
 <style>
-@import "@vue-flow/core/dist/style.css";
-@import "@vue-flow/core/dist/theme-default.css";
-
 .flow {
   width: 1000px;
   height: 500px;

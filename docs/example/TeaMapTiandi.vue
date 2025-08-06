@@ -26,8 +26,8 @@
 
 <script setup lang="ts">
 import { h, ref } from "vue";
-import { TeaDialog } from "../../src/components/dialog/vue3/TeaDialog.ts";
-import TeaMapController from "../../src/demo/map/vue3/tiandi/TeaMapController.vue";
+import { TeaDialog } from "../../src/components/dialog/TeaDialog.js";
+import TeaMapController from "../../src/demo/map/tiandi/TeaMapController.vue";
 
 let T = (window as any).T;
 let map = ref(null);

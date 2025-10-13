@@ -115,49 +115,54 @@ const activeComputed = (id: symbol) => {
 };
 
 watch(
-  () => props.list,
+  () => [props.map, props.list],
   () => {
-    const processItem = (item: listItemType): listItemWithIdType => {
-      const result: listItemWithIdType = {
-        id: Symbol(),
-        ...item,
-        children: undefined, // 先初始化为undefined
+    if (props.map && props.list) {
+      const processItem = (item: listItemType): listItemWithIdType => {
+        const result: listItemWithIdType = {
+          id: Symbol(),
+          ...item,
+          children: undefined, // 先初始化为undefined
+        };
+        if (item.children) {
+          result.children = item.children.map((child) => processItem(child));
+        }
+        return result;
       };
-      if (item.children) {
-        result.children = item.children.map((child) => processItem(child));
-      }
-      return result;
-    };
-    listWithId.value = props.list.map((item) => processItem(item));
-    for (let index in listWithId.value) {
-      // 有二级菜单
-      if (listWithId.value[index].children) {
-        layerMap.value.set(listWithId.value[index].id, {
-          options: listWithId.value[index],
-          checkOut: false,
-        });
-        listWithId.value[index].children!.forEach(
-          (item: listItemWithIdType) => {
-            layerMap.value.set(item.id, {
-              options: item,
-              layer: null,
-              show: false,
-              isChild: true,
-              father: listWithId.value[index].id,
-            });
-            item.isShow && onSelect(true, item.id);
-          },
-        );
-      } else {
-        layerMap.value.set(listWithId.value[index].id, {
-          options: listWithId.value[index],
-          layer: null,
-          show: false,
-        });
-        listWithId.value[index].isShow &&
-          onSelect(true, listWithId.value[index].id);
+      listWithId.value = props.list.map((item) => processItem(item));
+      for (let index in listWithId.value) {
+        // 有二级菜单
+        if (listWithId.value[index].children) {
+          layerMap.value.set(listWithId.value[index].id, {
+            options: listWithId.value[index],
+            checkOut: false,
+          });
+          listWithId.value[index].children!.forEach(
+            (item: listItemWithIdType) => {
+              layerMap.value.set(item.id, {
+                options: item,
+                layer: null,
+                show: false,
+                isChild: true,
+                father: listWithId.value[index].id,
+              });
+              item.isShow && onSelect(true, item.id);
+            },
+          );
+        } else {
+          layerMap.value.set(listWithId.value[index].id, {
+            options: listWithId.value[index],
+            layer: null,
+            show: false,
+          });
+          listWithId.value[index].isShow &&
+            onSelect(true, listWithId.value[index].id);
+        }
       }
     }
+  },
+  {
+    immediate: true,
   },
 );
 
@@ -184,29 +189,36 @@ const onSelect = async (val: boolean, id: symbol) => {
   if (!obj || obj.options.children) return;
   // 关闭图层
   if (!val) {
-    obj.show = false;
     if (obj.isChild) {
       const fa = layerMap.value.get(obj.father);
       if (fa) fa.checkOut = false;
     }
     obj.layer && removeLayer(obj.layer);
+    obj.show = false;
     return;
   }
-
   // 打开图层
-  obj.show = true;
-  // 是否需要重新加载数据
-  let reloadFlag = !obj.layer || props.isReload;
-  if (reloadFlag) {
-    const loadingInstance = ElLoading.service();
-    if (obj.layer && props.isReload) {
-      removeLayer(obj.layer);
-    }
-    obj.layer = await obj.options.onShow();
-    addLayer(obj.layer);
+  const loadingInstance = ElLoading.service();
+  setTimeout(() => {
     loadingInstance.close();
-  } else {
-    addLayer(obj.layer);
+  }, 5000);
+  try {
+    // 是否需要重新加载数据
+    let reloadFlag = !obj.layer || props.isReload;
+    if (reloadFlag) {
+      if (obj.layer && props.isReload) {
+        removeLayer(obj.layer);
+      }
+      obj.layer = await obj.options.onShow();
+      addLayer(obj.layer);
+    } else {
+      addLayer(obj.layer);
+    }
+    obj.show = true;
+  } catch (err) {
+    console.log(err);
+  } finally {
+    loadingInstance.close();
   }
   // 单选模式
   if (props.isSingle) {

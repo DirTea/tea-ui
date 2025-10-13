@@ -35,6 +35,7 @@ import axios from "axios";
 import { h, onMounted, ref } from "vue";
 import { TeaDialog } from "../../src/components/dialog/TeaDialog.js";
 import TeaMapController from "../../src/demo/map/gaode/TeaMapController.vue";
+import { wgs84togcj02 } from "../../src/demo/map/location_change.ts";
 
 let AMapLoader: any;
 onMounted(() => {
@@ -120,13 +121,17 @@ const onShow2 = () => {
 
 // 创建一个标记点
 const setMarker = (
-  e: { lng: number; lat: number },
+  e: { lng: number; lat: number; notChange?: boolean },
   params?: AMap.MarkerOptions,
 ) => {
   if (AMap && e) {
+    if (!e.notChange) {
+      e = wgs84togcj02(e.lng, e.lat);
+    }
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
     return new AMap.Marker({
       position: position,
+      anchor: "bottom-center",
       ...params,
     });
   } else {
@@ -136,7 +141,7 @@ const setMarker = (
 
 // 创建一条折线
 const setLine = (
-  e: { lng: number; lat: number },
+  e: { lng: number; lat: number; notChange?: boolean },
   params?: AMap.PolylineOptions,
 ) => {
   if (AMap && e) {
@@ -144,6 +149,9 @@ const setLine = (
     if (Array.isArray(e)) {
       e.forEach((item) => {
         // 线段经纬度
+        if (!e.notChange) {
+          item = wgs84togcj02(item.lng, item.lat);
+        }
         path.push(new AMap.LngLat(item.lng, item.lat));
       });
       return new AMap.Polyline({
@@ -158,14 +166,17 @@ const setLine = (
 
 // 创建一个文本标记点
 const setText = (
-  e: { lng: number; lat: number },
+  e: { lng: number; lat: number; notChange?: boolean },
   params?: AMap.TextOptions,
 ) => {
   if (AMap && e) {
+    if (!e.notChange) {
+      e = wgs84togcj02(e.lng, e.lat);
+    }
     const position = new AMap.LngLat(e.lng, e.lat); // Marker经纬度
     return new AMap.Text({
       position: position,
-      anchor: "center",
+      anchor: "bottom-center",
       ...params,
     });
   } else {

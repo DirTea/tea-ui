@@ -6,7 +6,7 @@
       :style="{
         'background-color': modal ? 'rgba(0,0,0,0.6)' : 'transparent',
       }"
-      v-if="modelValue"
+      v-if="model"
     >
       <div
         class="dialog-inside"
@@ -15,7 +15,7 @@
         }"
       >
         <slot></slot>
-        <div v-if="!slotClose" class="dialog-close" @click="onClose">x</div>
+        <div v-if="!slotClose" class="dialog-close" @click="onClose">×</div>
         <div style="position: inherit; cursor: pointer" @click="onClose">
           <slot name="close"></slot>
         </div>
@@ -28,7 +28,11 @@
 import { computed, onMounted, onUnmounted, useSlots, watch } from "vue";
 
 // v-model绑定是否弹出
-const modelValue = defineModel({ type: Boolean, required: true });
+const model = defineModel({
+  type: Boolean,
+  default: false,
+  required: true,
+});
 
 const props = defineProps({
   // 是否开启遮罩层
@@ -59,7 +63,7 @@ const slotClose = computed(() => {
 });
 
 watch(
-  () => modelValue.value,
+  () => model.value,
   (value) => {
     const bodyStyle = document.body.style;
     if (value) {
@@ -75,13 +79,12 @@ watch(
   },
 );
 
-const emit = defineEmits(["update:modelValue"]);
 onMounted(() => {
   document.addEventListener("click", (e) => {
     const target = e.target as HTMLDivElement;
     if (target.dataset!.key === dataKey) {
       if (target.classList.contains("dialog-outside")) {
-        emit("update:modelValue", false);
+        onClose();
       }
     }
   });
@@ -91,7 +94,7 @@ onUnmounted(() => {
 });
 
 const onClose = () => {
-  emit("update:modelValue", false);
+  model.value = false;
 };
 </script>
 

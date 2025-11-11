@@ -23,12 +23,13 @@
 <script setup lang="ts">
 import { computed } from "vue";
 
+const model = defineModel({
+  type: Boolean,
+  default: false,
+  required: true,
+});
+
 const props = defineProps({
-  modelValue: {
-    type: Boolean,
-    default: false,
-    required: true,
-  },
   width: {
     type: [Number, String],
     required: true,
@@ -57,21 +58,21 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["update:modelValue", "onFlip", "onUnFlip"]);
+const emit = defineEmits(["onFlip", "onUnFlip"]);
 const onClick = () => {
   if (props.trigger === "click" && props.canFlip) {
     triggerEmit();
-    emit("update:modelValue", !props.modelValue);
+    model.value = !model.value;
   }
 };
 const onEnterLeave = () => {
   if (props.trigger === "hover" && props.canFlip) {
     triggerEmit();
-    emit("update:modelValue", !props.modelValue);
+    model.value = !model.value;
   }
 };
 const triggerEmit = () => {
-  if (!props.modelValue) {
+  if (!model.value) {
     emit("onFlip");
   } else {
     emit("onUnFlip");
@@ -123,11 +124,11 @@ const duration = computed(() => {
 }
 
 .flip-inner-x {
-  transform: v-bind("!props.modelValue ? 'rotateY(0deg)' : 'rotateY(180deg)'");
+  transform: v-bind("!model ? 'rotateY(0deg)' : 'rotateY(180deg)'");
 }
 
 .flip-inner-y {
-  transform: v-bind("!props.modelValue ? 'rotateX(0deg)' : 'rotateX(180deg)'");
+  transform: v-bind("!model ? 'rotateX(0deg)' : 'rotateX(180deg)'");
 }
 
 .flip-front-x {

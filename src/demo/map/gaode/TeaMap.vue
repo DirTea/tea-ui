@@ -14,21 +14,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { h, onMounted, ref } from "vue";
 import "@amap/amap-jsapi-types";
 import AMapLoader from "@amap/amap-jsapi-loader";
 import axios from "axios";
-import { h, onMounted, ref } from "vue";
-import { TeaDialog } from "@/components/dialog/TeaDialog.ts";
 import TeaMapController from "./TeaMapController.vue";
+import { TeaDialog } from "@/components/dialog/TeaDialog.ts";
 import { wgs84togcj02 } from "../location_change.ts";
 
-(window as any)._AMapSecurityConfig = {
+window._AMapSecurityConfig = {
   securityJsCode: "", // 安全密钥
 };
 
-let AMap: any;
-let map = ref<AMap.Map | null>(null);
+let AMap;
+let map = ref(null);
 
 // 初始化地图
 const initMap = () => {
@@ -46,11 +46,12 @@ const initMap = () => {
     AMap = Amap;
     // 添加默认图层
     map.value = new AMap.Map("container", {
+      center: [120.07741, 30.31188],
       layers: [
         new AMap.TileLayer.Satellite(), // 卫星图
         new AMap.TileLayer.RoadNet(), // 路网
       ],
-      zoom: 5,
+      zoom: 16,
     });
     // 在此处使用后面的set方法
   });
@@ -69,8 +70,9 @@ const onShow1 = () => {
     // 此处可以调用后端接口获取点位
     let layer = [];
     const marker = setMarker({
-      lng: 120.631155,
-      lat: 28.736966,
+      lng: 120.07741,
+      lat: 30.31188,
+      notChange: true,
     });
     setDialog(marker);
     layer.push(marker);
@@ -82,8 +84,9 @@ const onShow2 = () => {
     // 此处可以调用后端接口获取点位
     let layer = [];
     const marker = setMarker({
-      lng: 121.631155,
-      lat: 29.736966,
+      lng: 120.07741,
+      lat: 30.31188,
+      notChange: true,
     });
     setDialog(marker);
     layer.push(marker);
@@ -92,10 +95,7 @@ const onShow2 = () => {
 };
 
 // 创建一个标记点
-const setMarker = (
-  e: { lng: number; lat: number; notChange?: boolean },
-  params?: AMap.MarkerOptions,
-) => {
+const setMarker = (e, params = {}) => {
   if (AMap && e) {
     if (!e.notChange) {
       e = wgs84togcj02(e.lng, e.lat);
@@ -112,12 +112,9 @@ const setMarker = (
 };
 
 // 创建一条折线
-const setLine = (
-  e: { lng: number; lat: number; notChange?: boolean },
-  params?: AMap.PolylineOptions,
-) => {
+const setLine = (e, params = {}) => {
   if (AMap && e) {
-    let path: Array<AMap.LngLat> | Array<Array<AMap.LngLat>> = [];
+    let path = [];
     if (Array.isArray(e)) {
       e.forEach((item) => {
         // 线段经纬度
@@ -137,10 +134,7 @@ const setLine = (
 };
 
 // 创建一个文本标记点
-const setText = (
-  e: { lng: number; lat: number; notChange?: boolean },
-  params?: AMap.TextOptions,
-) => {
+const setText = (e, params = {}) => {
   if (AMap && e) {
     if (!e.notChange) {
       e = wgs84togcj02(e.lng, e.lat);
@@ -157,7 +151,7 @@ const setText = (
 };
 
 // marker添加信息窗体
-const setInfoWindow = (position: AMap.LngLat) => {
+const setInfoWindow = (position) => {
   let content = ["这里是信息弹窗"];
   // 创建 infoWindow 实例
   let infoWindow = new AMap.InfoWindow({
@@ -170,7 +164,7 @@ const setInfoWindow = (position: AMap.LngLat) => {
 };
 
 // marker添加弹出框
-const setDialog = (marker: AMap.Marker) => {
+const setDialog = (marker) => {
   marker.on("click", () => {
     TeaDialog({
       content: h("div", {}, "弹出框内容"),
@@ -185,13 +179,13 @@ const setGeoJson = () => {
     axios.get("/chongqing.json").then((res) => {
       let geojson = new AMap.GeoJSON({
         geoJSON: res.data,
-        getPolygon: (geojson: Object, lnglats: AMap.LngLatLike) => {
+        getPolygon: (geojson, lnglats) => {
           let polygon = new AMap.Polygon({
             path: lnglats,
             strokeColor: "white", // 边框颜色
             fillColor: "red", // 填充颜色
           });
-          polygon.on("click", (e: any) => {
+          polygon.on("click", (e) => {
             console.log(e);
           });
           return polygon;
@@ -224,11 +218,11 @@ const setLocation = () => {
     map.value.addControl(geolocation);
     geolocation.on("complete", onComplete);
     geolocation.on("onError", onError);
-    function onComplete(data: any) {
+    function onComplete(data) {
       // 定位成功后调用
       console.log(data);
     }
-    function onError(data: any) {
+    function onError(data) {
       // 定位出错
       console.log(data);
     }
@@ -248,7 +242,7 @@ const setSearch = () => {
       map: map.value,
     }); //构造地点查询类
     autoComplete.on("select", select); //注册监听，当选中某条记录时会触发
-    function select(e: any) {
+    function select(e) {
       placeSearch.setCity(e.poi.adcode);
       placeSearch.search(e.poi.name); //关键字查询查询
     }

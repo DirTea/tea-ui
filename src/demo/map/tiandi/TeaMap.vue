@@ -14,12 +14,12 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { TeaDialog } from "@/components/dialog/TeaDialog.ts";
+<script setup>
 import { h, onMounted, ref } from "vue";
 import TeaMapController from "./TeaMapController.vue";
+import { TeaDialog } from "@/components/dialog/TeaDialog.ts";
 
-let T = (window as any).T;
+let T = window.T;
 let map = ref(null);
 
 // 初始化地图
@@ -27,7 +27,7 @@ const initMap = () => {
   // 请在开发前更换天地图tk
   const tk = "";
   let mapTD = new T.Map("container");
-  mapTD.centerAndZoom(new T.LngLat(121.631155, 29.736966), 5); // 传参中心点经纬度，以及放大程度
+  mapTD.centerAndZoom(new T.LngLat(120.07259, 30.31415), 16); // 传参中心点经纬度，以及放大程度
   // 卫星图
   let satelliteLayer = new T.TileLayer(
     `http://t0.tianditu.gov.cn/img_w/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&TILEMATRIXSET=w&FORMAT=tiles` +
@@ -56,8 +56,8 @@ const onShow1 = () => {
     // 此处可以调用后端接口获取点位
     let layer = [];
     const marker = setMarker({
-      lng: 120.631155,
-      lat: 28.736966,
+      lng: 120.07259,
+      lat: 30.31415,
     });
     layer.push(marker);
     resolve(layer);
@@ -68,21 +68,20 @@ const onShow2 = () => {
     // 此处可以调用后端接口获取点位
     let layer = [];
     const marker = setMarker({
-      lng: 121.631155,
-      lat: 29.736966,
+      lng: 120.07259,
+      lat: 30.31415,
     });
     layer.push(marker);
     resolve(layer);
   });
 };
 
-// 创建单个标记点
-const setMarker = (e: { lng: number; lat: number }) => {
+// 创建一个标记点
+const setMarker = (e) => {
   if (map.value && e) {
     const position = new T.LngLat(e.lng, e.lat); // Marker经纬度
     let marker = new T.Marker(position);
     setDialog(marker);
-    setInfoWindow(position);
     return marker;
   } else {
     console.log("地图未加载或传参错误");
@@ -90,7 +89,7 @@ const setMarker = (e: { lng: number; lat: number }) => {
 };
 
 // marker添加信息窗体
-const setInfoWindow = (position: any) => {
+const setInfoWindow = (position) => {
   let content = ["这里是信息弹窗"];
   // 创建 infoWindow 实例
   let infoWindow = new T.InfoWindow(content.join("<br>"), {
@@ -102,7 +101,7 @@ const setInfoWindow = (position: any) => {
 };
 
 // marker添加弹出框
-const setDialog = (marker: any) => {
+const setDialog = (marker) => {
   marker.addEventListener("click", () => {
     TeaDialog({
       props: {},
@@ -115,9 +114,9 @@ const setDialog = (marker: any) => {
 // 其他格式的矢量文件必须先转化为geojson
 const setGeoJson = () => {
   if (T && map.value) {
-    d3.json("/chongqing.json", function (data: any) {
+    d3.json("/chongqing.json", function (data) {
       let overlay = new T.D3Overlay(
-        (sel: any, transform: any) => {
+        (sel, transform) => {
           let upd = sel.selectAll("path.geojson").data(data.features);
           upd
             .enter()
@@ -127,7 +126,7 @@ const setGeoJson = () => {
             .attr("fill", "red")
             .attr("fill-opacity", "0.5");
         },
-        (sel: any, transform: any) => {
+        (sel, transform) => {
           sel.selectAll("path.geojson").each(function (d, i) {
             d3.select(this).attr("d", transform.pathFromGeojson);
           });
@@ -144,7 +143,7 @@ const setGeoJson = () => {
 const setLocation = () => {
   if (map.value) {
     let lo = new T.Geolocation();
-    let fn = function (e: any) {
+    let fn = function (e) {
       map.value.centerAndZoom(e.lnglat, 15);
     };
     lo.getCurrentPosition(fn);
@@ -153,19 +152,19 @@ const setLocation = () => {
 
 // poi搜索地点 todo 需要配合下拉框
 const setSearch = () => {
-  const input = document.getElementById("input") as HTMLInputElement;
+  const input = document.getElementById("input");
   const search = () => {
     // 创建搜索对象
     let localSearch = new T.LocalSearch(map.value, {
       pageCapacity: 10, //每页显示的数量
-      onSearchComplete: function (res: any) {
+      onSearchComplete: function (res) {
         console.log(res);
       },
     });
     localSearch.search(input.value);
   };
-  function debounce(fn: any, wait: any) {
-    let timer: any = null;
+  function debounce(fn, wait) {
+    let timer = null;
     return function () {
       if (timer !== null) {
         clearTimeout(timer);

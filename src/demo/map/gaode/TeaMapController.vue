@@ -29,7 +29,7 @@
             size="large"
             @change="
               (val: boolean) => {
-                onSelectAll(val, item.children!);
+                onSelectAll(val, item.children);
               }
             "
           />
@@ -52,28 +52,14 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, watch } from "vue";
 import { ElLoading } from "element-plus";
-import type { PropType } from "@vue/runtime-core";
 import "@amap/amap-jsapi-types";
-
-interface listItemType {
-  icon?: string;
-  title: string;
-  isShow?: boolean;
-  onShow?: Function;
-  children?: Array<listItemType>;
-}
-
-interface listItemWithIdType extends listItemType {
-  id: symbol;
-  children?: Array<listItemWithIdType>;
-}
 
 const props = defineProps({
   map: {
-    type: [Object, null] as PropType<AMap.Map | null>,
+    type: Object,
     required: true,
   },
   /**
@@ -88,7 +74,7 @@ const props = defineProps({
    * ]
    */
   list: {
-    type: Object as PropType<Array<listItemType>>,
+    type: Object,
     default: () => [],
   },
   // 是否开启单选模式
@@ -109,9 +95,9 @@ const props = defineProps({
 });
 
 const layerMap = ref(new Map());
-const listWithId = ref<listItemWithIdType[]>([]);
+const listWithId = ref([]);
 
-const activeComputed = (id: symbol) => {
+const activeComputed = (id) => {
   return layerMap.value.get(id)?.show;
 };
 
@@ -119,8 +105,8 @@ watch(
   () => [props.map, props.list],
   () => {
     if (props.map && props.list) {
-      const processItem = (item: listItemType): listItemWithIdType => {
-        const result: listItemWithIdType = {
+      const processItem = (item) => {
+        const result = {
           id: Symbol(),
           ...item,
           children: undefined, // 先初始化为undefined
@@ -138,18 +124,16 @@ watch(
             options: listWithId.value[index],
             checkOut: false,
           });
-          listWithId.value[index].children!.forEach(
-            (item: listItemWithIdType) => {
-              layerMap.value.set(item.id, {
-                options: item,
-                layer: null,
-                show: false,
-                isChild: true,
-                father: listWithId.value[index].id,
-              });
-              item.isShow && onSelect(true, item.id);
-            },
-          );
+          listWithId.value[index].children.forEach((item) => {
+            layerMap.value.set(item.id, {
+              options: item,
+              layer: null,
+              show: false,
+              isChild: true,
+              father: listWithId.value[index].id,
+            });
+            item.isShow && onSelect(true, item.id);
+          });
         } else {
           layerMap.value.set(listWithId.value[index].id, {
             options: listWithId.value[index],
@@ -167,11 +151,11 @@ watch(
   },
 );
 
-const onSelect = async (val: boolean, id: symbol) => {
-  const addLayer = (layer: AMap.LayerGroup) => {
+const onSelect = async (val, id) => {
+  const addLayer = (layer) => {
     props.map?.add(layer);
   };
-  const removeLayer = (layer: AMap.LayerGroup) => {
+  const removeLayer = (layer) => {
     props.map?.remove(layer);
   };
   let obj = layerMap.value.get(id);
@@ -220,8 +204,8 @@ const onSelect = async (val: boolean, id: symbol) => {
   }
 };
 
-const onSelectAll = (val: boolean, children: Array<listItemWithIdType>) => {
-  children.forEach((item: listItemWithIdType) => {
+const onSelectAll = (val, children) => {
+  children.forEach((item) => {
     onSelect(val, item.id);
   });
 };

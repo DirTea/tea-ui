@@ -22,9 +22,10 @@
     "amap-weather-icons": "^0.0.6",
     "axios": "1.8.2",
     "echarts": "^5.4.3",
-    "element-plus": "^2.3.4",
+    "element-plus": "2.11.3",
     "html-to-image": "^1.11.13",
     "lodash": "^4.17.21",
+    "maptalks-gl": "^0.117.0",
     "vitepress": "^1.5.0",
     "vue": "^3.5.17",
     "vue-draggable-plus": "^0.4.0"
@@ -34,7 +35,7 @@
     "postcss": "^8.4.47",
     "prettier": "3.2.5",
     "typescript": "^5.0.2",
-    "vite": "6.3.4",
+    "vite": "7.1.11",
     "vitepress-theme-demoblock": "^3.0.5",
     "vue-tsc": "^1.8.5"
   }
